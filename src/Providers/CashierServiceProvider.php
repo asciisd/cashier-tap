@@ -81,10 +81,10 @@ class CashierServiceProvider extends ServiceProvider
          * Uncomment the first function call to load the migrations.
          * Uncomment the second function call to make the migrations publishable using the 'migrations' tags.
          */
-        // $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-        // $this->publishes([
-        //     __DIR__.'/../../database/migrations/' => database_path('migrations')
-        // ], 'migrations');
+         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+         $this->publishes([
+             __DIR__.'/../../database/migrations/' => database_path('migrations')
+         ], 'migrations');
     }
 
     /**
