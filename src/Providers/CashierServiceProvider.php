@@ -18,9 +18,9 @@ class CashierServiceProvider extends ServiceProvider
          *
          * Uncomment this function call to make the config file publishable using the 'config' tag.
          */
-        // $this->publishes([
-        //     __DIR__.'/../../config/cashier.php' => config_path('cashier.php'),
-        // ], 'config');
+         $this->publishes([
+             __DIR__.'/../../config/cashier.php' => config_path('cashier.php'),
+         ], 'config');
 
         /**
          * Routes
@@ -69,7 +69,7 @@ class CashierServiceProvider extends ServiceProvider
         /**
          * Public assets
          *
-         * Uncomment this functin call to make the public assets publishable using the 'public' tag.
+         * Uncomment this function call to make the public assets publishable using the 'public' tag.
          */
         // $this->publishes([
         //     __DIR__.'/../../public' => public_path('vendor/cashier'),
@@ -100,8 +100,8 @@ class CashierServiceProvider extends ServiceProvider
          * Uncomment this function call to load the config file.
          * If the config file is also publishable, it will merge with that file
          */
-        // $this->mergeConfigFrom(
-        //     __DIR__.'/../../config/cashier.php', 'cashier'
-        // );
+//         $this->mergeConfigFrom(
+//             __DIR__.'/../../config/cashier.php', 'cashier'
+//         );
     }
 }

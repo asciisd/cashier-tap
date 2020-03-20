@@ -1,14 +1,14 @@
 {
-  "name": "asciisd/cashier",
+  "name": "asciisd/cashier-tap",
   "description": "",
-  "keywords": ["Laravel"],
+  "keywords": ["Laravel", "Cashier", "Tap"],
   "authors": [
     {
       "name": "Amr Ahmed",
       "email": "aemad@asciisd.com"
     }
   ],
-  "homepage": "https://github.com/asciisd/cashier",
+  "homepage": "https://github.com/asciisd/cashier-tap",
   "require": {
     "php": "^7.2",
     "laravel/framework": "^6.0",
