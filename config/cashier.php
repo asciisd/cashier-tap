@@ -28,5 +28,18 @@ return [
 
     'currency' => env('CASHIER_CURRENCY', 'USD'),
 
-    'webhook_url' => env('WEBHOOK_URL', 'http://payment.test/tap/handle')
+    'webhook_url' => env('WEBHOOK_URL', 'http://payment.test/tap/handle'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tap Logger
+    |--------------------------------------------------------------------------
+    |
+    | This setting defines which logging channel will be used by the Tap
+    | library to write log messages. You are free to specify any of your
+    | logging channels listed inside the "logging" configuration file.
+    |
+    */
+
+    'logger' => env('CASHIER_LOGGER')
 ];

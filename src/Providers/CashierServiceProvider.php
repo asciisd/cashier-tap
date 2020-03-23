@@ -2,7 +2,13 @@
 
 namespace Asciisd\Cashier\Providers;
 
+use Asciisd\Cashier\Cashier;
+use Asciisd\Cashier\Logger;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Tap\Tap;
+use Tap\Util\LoggerInterface;
 
 class CashierServiceProvider extends ServiceProvider
 {
@@ -10,81 +16,21 @@ class CashierServiceProvider extends ServiceProvider
      * Bootstrap the application services.
      *
      * @return void
+     * @throws BindingResolutionException
      */
     public function boot()
     {
-        /**
-         * Config
-         *
-         * Uncomment this function call to make the config file publishable using the 'config' tag.
-         */
-         $this->publishes([
-             __DIR__.'/../../config/cashier.php' => config_path('cashier.php'),
-         ], 'config');
+        $this->registerLogger();
+//        $this->registerRoutes();
+//        $this->registerResources();
+        $this->registerMigrations();
+        $this->registerPublishing();
 
-        /**
-         * Routes
-         *
-         * Uncomment this function call to load the route files.
-         * A web.php file has already been generated.
-         */
-        // $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
-
-        /**
-         * Translations
-         *
-         * Uncomment the first function call to load the translations.
-         * Uncomment the second function call to load the JSON translations.
-         * Uncomment the third function call to make the translations publishable using the 'translations' tag.
-         */
-        // $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'cashier');
-        // $this->loadJsonTranslationsFrom(__DIR__.'/../../resources/lang', 'cashier');
-        // $this->publishes([
-        //     __DIR__.'/../../resources/lang' => resource_path('lang/vendor/cashier'),
-        // ], 'translations');
-
-        /**
-         * Views
-         *
-         * Uncomment the first section to load the views.
-         * Uncomment the second section to make the view publishable using the 'view' tags.
-         */
-        // $this->loadViewsFrom(__DIR__.'/../../resources/views', 'cashier');
-        // $this->publishes([
-        //     __DIR__.'/../../resources/views' => resource_path('views/vendor/cashier'),
-        // ], 'views');
-
-        /**
-         * Commands
-         *
-         * Uncomment this section to load the commands.
-         * A basic command file has already been generated in 'src\Console\Commands\MyPackageCommand.php'.
-         */
-        // if ($this->app->runningInConsole()) {
-        //     $this->commands([
-        //         \Asciisd\Cashier\Console\Commands\CashierCommand::class,
-        //     ]);
-        // }
-
-        /**
-         * Public assets
-         *
-         * Uncomment this function call to make the public assets publishable using the 'public' tag.
-         */
-        // $this->publishes([
-        //     __DIR__.'/../../public' => public_path('vendor/cashier'),
-        // ], 'public');
-
-        /**
-         * Migrations
-         *
-         * Uncomment the first function call to load the migrations.
-         * Uncomment the second function call to make the migrations publishable using the 'migrations' tags.
-         */
-         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
-         $this->publishes([
-             __DIR__.'/../../database/migrations/' => database_path('migrations')
-         ], 'migrations');
+        Tap::setAppInfo(
+            'Laravel Cashier Tap',
+            Cashier::VERSION,
+            'https://asciisd.com'
+        );
     }
 
     /**
@@ -94,14 +40,109 @@ class CashierServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /**
-         * Config file
-         *
-         * Uncomment this function call to load the config file.
-         * If the config file is also publishable, it will merge with that file
-         */
-//         $this->mergeConfigFrom(
-//             __DIR__.'/../../config/cashier.php', 'cashier'
-//         );
+        $this->configure();
+        $this->bindLogger();
+    }
+
+    /**
+     * Setup the configuration for Cashier.
+     *
+     * @return void
+     */
+    protected function configure()
+    {
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/cashier.php', 'cashier'
+        );
+    }
+
+    /**
+     * Bind the Stripe logger interface to the Cashier logger.
+     *
+     * @return void
+     */
+    protected function bindLogger()
+    {
+        $this->app->bind(LoggerInterface::class, function ($app) {
+            return new Logger(
+                $app->make('log')->channel(config('cashier.logger'))
+            );
+        });
+    }
+
+    /**
+     * Register the Tap logger.
+     *
+     * @return void
+     * @throws BindingResolutionException
+     */
+    protected function registerLogger()
+    {
+        if (config('cashier.logger')) {
+            Tap::setLogger($this->app->make(LoggerInterface::class));
+        }
+    }
+
+    /**
+     * Register the package routes.
+     *
+     * @return void
+     */
+    protected function registerRoutes()
+    {
+        if (Cashier::$registersRoutes) {
+            Route::group([
+                'prefix' => config('cashier.path'),
+                'namespace' => 'Asciisd\Cashier\Http\Controllers',
+                'as' => 'cashier.',
+            ], function () {
+                $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
+            });
+        }
+    }
+
+    /**
+     * Register the package resources.
+     *
+     * @return void
+     */
+    protected function registerResources()
+    {
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../../resources/lang');
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'cashier');
+    }
+
+    /**
+     * Register the package migrations.
+     *
+     * @return void
+     */
+    protected function registerMigrations()
+    {
+        if (Cashier::$runsMigrations && $this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        }
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    protected function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__ . '/../../config/cashier.php' => $this->app->configPath('cashier.php'),
+            ], 'cashier-config');
+
+            $this->publishes([
+                __DIR__ . '/../../database/migrations' => $this->app->databasePath('migrations'),
+            ], 'cashier-migrations');
+
+            $this->publishes([
+                __DIR__ . '/../../resources/views' => $this->app->resourcePath('views/vendor/cashier'),
+            ], 'cashier-views');
+        }
     }
 }
