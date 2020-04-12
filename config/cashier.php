@@ -28,7 +28,90 @@ return [
 
     'currency' => env('CASHIER_CURRENCY', 'USD'),
 
-    'webhook_url' => env('WEBHOOK_URL', 'http://payment.test/tap/handle'),
+    /*
+    |--------------------------------------------------------------------------
+    | Cashier Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the base URI path where Cashier's views, such as the payment
+    | verification screen, will be available from. You're free to tweak
+    | this path according to your preferences and application design.
+    |
+    */
+
+    'path' => env('CASHIER_PATH', 'tap'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tap Webhooks
+    |--------------------------------------------------------------------------
+    |
+    | Your Tap webhook secret is used to prevent unauthorized requests to
+    | your Tap webhook handling controllers. The tolerance setting will
+    | check the drift between the current time and the signed request's.
+    |
+    */
+
+    'webhook' => [
+        'secret' => env('TAP_WEBHOOK_SECRET'),
+        'tolerance' => env('TAP_WEBHOOK_TOLERANCE', 300)
+    ],
+
+    'redirect_url' => env('CASHIER_REDIRECT_URL', '/tap/receipt'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cashier Model
+    |--------------------------------------------------------------------------
+    |
+    | This is the model in your application that implements the Billable trait
+    | provided by Cashier. It will serve as the primary model you use while
+    | interacting with Cashier related methods, subscriptions, and so on.
+    |
+    */
+
+    'model' => env('CASHIER_MODEL', App\User::class),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Currency Locale
+    |--------------------------------------------------------------------------
+    |
+    | This is the default locale in which your money values are formatted in
+    | for display. To utilize other locales besides the default en locale
+    | verify you have the "intl" PHP extension installed on the system.
+    |
+    */
+
+    'currency_locale' => env('CASHIER_CURRENCY_LOCALE', 'en'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Invoice Paper Size
+    |--------------------------------------------------------------------------
+    |
+    | This option is the default paper size for all invoices generated using
+    | Cashier. You are free to customize this settings based on the usual
+    | paper size used by the customers using your Laravel applications.
+    |
+    | Supported sizes: 'letter', 'legal', 'A4'
+    |
+    */
+
+    'paper' => env('CASHIER_PAPER', 'letter'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Payment Confirmation Notification
+    |--------------------------------------------------------------------------
+    |
+    | If this setting is enabled, Cashier will automatically notify customers
+    | whose payments require additional verification. You should listen to
+    | Tap's webhooks in order for this feature to function correctly.
+    |
+    */
+
+    'payment_notification' => env('CASHIER_PAYMENT_NOTIFICATION'),
 
     /*
     |--------------------------------------------------------------------------

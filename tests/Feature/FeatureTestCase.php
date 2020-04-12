@@ -1,6 +1,6 @@
 <?php
 
-namespace Asciisd\Cashier\Tests\Integration;
+namespace Asciisd\Cashier\Tests\Feature;
 
 use Asciisd\Cashier\Tests\Fixtures\User;
 use Asciisd\Cashier\Tests\TestCase;
@@ -13,12 +13,12 @@ use Tap\Tap;
 use Tap\TapObject;
 use Tap\Token;
 
-abstract class IntegrationTestCase extends TestCase
+abstract class FeatureTestCase extends TestCase
 {
     /**
      * @var string
      */
-    protected static $stripePrefix = 'cashier-test-';
+    protected static $tapPrefix = 'cashier-test-';
 
     protected static $test_card = [
             'card' => [
@@ -53,8 +53,6 @@ abstract class IntegrationTestCase extends TestCase
         parent::setUp();
 
         Eloquent::unguard();
-
-        Config::set('cashier.webhook_url', 'https://payment.test/tap/handle');
 
         $this->loadLaravelMigrations();
 

@@ -3,6 +3,7 @@
 namespace Asciisd\Cashier\Providers;
 
 use Asciisd\Cashier\Cashier;
+use Asciisd\Cashier\Console\InstallCommand;
 use Asciisd\Cashier\Logger;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +22,8 @@ class CashierServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerLogger();
-//        $this->registerRoutes();
-//        $this->registerResources();
+        $this->registerRoutes();
+        $this->registerResources();
         $this->registerMigrations();
         $this->registerPublishing();
 
@@ -42,6 +43,12 @@ class CashierServiceProvider extends ServiceProvider
     {
         $this->configure();
         $this->bindLogger();
+        $this->registerServices();
+        $this->registerCommands();
+
+        if (! class_exists('Cashier')) {
+            class_alias('Asciisd\Cashier\Cashier', 'Cashier');
+        }
     }
 
     /**
@@ -143,6 +150,33 @@ class CashierServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__ . '/../../resources/views' => $this->app->resourcePath('views/vendor/cashier'),
             ], 'cashier-views');
+
+            $this->publishes([
+                __DIR__ . '/../../public' => public_path('vendor/cashier'),
+            ], 'cashier-assets');
+
+            $this->publishes([
+                __DIR__ . '/../../stubs/CashierServiceProvider.stub' => app_path('Providers/CashierServiceProvider.php'),
+            ], 'cashier-provider');
         }
+    }
+
+    /**
+     * Register the Horizon Artisan commands.
+     *
+     * @return void
+     */
+    protected function registerCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                InstallCommand::class,
+            ]);
+        }
+    }
+
+    public function registerServices()
+    {
+        //
     }
 }

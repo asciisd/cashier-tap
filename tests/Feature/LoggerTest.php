@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Asciisd\Cashier\Tests\Integration;
+namespace Asciisd\Cashier\Tests\Feature;
 
 
 use Asciisd\Cashier\Logger;

@@ -4,11 +4,25 @@ namespace Asciisd\Cashier;
 
 use Asciisd\Cashier\Exceptions\PaymentActionRequired;
 use Asciisd\Cashier\Exceptions\PaymentFailure;
+use Asciisd\Cashier\Traits\Downloadable;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Tap\Charge;
 use Tap\TapObject;
 
+/**
+ * Class Payment
+ *
+ * @property string id
+ * @property string status
+ * @property string currency
+ *
+ * @package Asciisd\Cashier
+ */
 class Payment
 {
+    use Downloadable;
+
     /**
      * The Tap Charge instance.
      *
@@ -58,6 +72,16 @@ class Payment
     }
 
     /**
+     * get url of charge action
+     *
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    public function action_url()
+    {
+        return $this->charge->transaction->url ?? url('/');
+    }
+
+    /**
      * Determine if the payment was cancelled.
      *
      * @return bool
@@ -84,7 +108,47 @@ class Payment
      */
     public function isFailure()
     {
-        return $this->charge->status === 'FAILED';
+        return in_array($this->charge->status, [
+            'ABANDONED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN'
+        ]);
+    }
+
+    public function receipt_no()
+    {
+        return $this->charge->receipt->id;
+    }
+
+    public function receipt()
+    {
+        return config('cashier.redirect_url') . '?tap_id=' . $this->charge->id;
+    }
+
+    public function last_4()
+    {
+        return $this->charge->card->last_four ?? '0000';
+    }
+
+    public function payment_method()
+    {
+        return Str::title($this->charge->source->payment_method ?? 'Credit Card');
+    }
+
+    public function payment_method_icon()
+    {
+        $method = Str::lower($this->payment_method());
+        return url("vendor/cashier/img/invoice/card/{$method}-dark@2x.png");
+    }
+
+    public function payment_method_svg()
+    {
+        $method = Str::lower($this->payment_method());
+        return url("vendor/cashier/img/invoice/card/svg/{$method}.svg");
+    }
+
+    public function status_icon()
+    {
+        $status = Str::lower($this->charge->status);
+        return url("vendor/cashier/img/invoice/status/{$status}.png");
     }
 
     /**
@@ -105,6 +169,19 @@ class Payment
     }
 
     /**
+     * Get a Carbon date for the invoice.
+     *
+     * @param \DateTimeZone|string $timezone
+     * @return \Carbon\Carbon
+     */
+    public function date($timezone = null)
+    {
+        $carbon = Carbon::createFromTimestampMs($this->charge->transaction->created);
+
+        return $timezone ? $carbon->setTimezone($timezone) : $carbon;
+    }
+
+    /**
      * The Tap Charge instance.
      *
      * @return Charge
@@ -115,6 +192,16 @@ class Payment
     }
 
     /**
+     * The Tap model instance.
+     *
+     * @return Billable|null
+     */
+    public function owner()
+    {
+        return Cashier::findBillable($this->charge->customer->id);
+    }
+
+    /**
      * Dynamically get values from the Tap Charge.
      *
      * @param string $key
@@ -122,6 +209,6 @@ class Payment
      */
     public function __get($key)
     {
-        return $this->charge[$key];
+        return $this->charge->$key;
     }
 }

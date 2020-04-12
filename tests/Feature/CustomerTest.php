@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Asciisd\Cashier\Tests\Integration;
+namespace Asciisd\Cashier\Tests\Feature;
 
 
-class CustomerTest extends IntegrationTestCase
+class CustomerTest extends FeatureTestCase
 {
     public function test_customers_in_tap_can_be_updated()
     {

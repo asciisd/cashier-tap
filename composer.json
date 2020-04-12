@@ -1,44 +1,74 @@
 {
-  "name": "asciisd/cashier-tap",
-  "description": "",
-  "keywords": ["Laravel", "Cashier", "Tap"],
-  "authors": [
-    {
-      "name": "Amr Ahmed",
-      "email": "aemad@asciisd.com"
-    }
-  ],
-  "homepage": "https://github.com/asciisd/cashier-tap",
-  "require": {
-    "php": "^7.2",
-    "laravel/framework": "^6.0",
-    "asciisd/tap-php": "^1.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^8.0",
-    "orchestra/testbench": "^4.0",
-    "phpstan/phpstan": "^0.12.9"
-  },
-  "license": "MIT",
-  "autoload": {
-    "psr-4": {
-      "Asciisd\\Cashier\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Asciisd\\Cashier\\Tests\\": "tests/"
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "Asciisd\\Cashier\\Providers\\CashierServiceProvider"
-      ]
-    }
-  },
-  "scripts": {
-    "test": "vendor/bin/phpunit -c ./phpunit.xml --colors=always",
-    "analysis": "vendor/bin/phpstan analyse"
-  }
+    "name": "asciisd/cashier-tap",
+    "description": "Asciisd Cashier provides an expressive, fluent interface to Tap's subscription billing services.",
+    "keywords": ["Laravel", "Cashier", "Tap", "Cashier Tap"],
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/asciisd/cashier-tap/issues",
+        "source": "https://github.com/asciisd/cashier-tap"
+    },
+    "authors": [
+        {
+            "name": "Amr Ahmed",
+            "email": "aemad@asciisd.com"
+        }
+    ],
+    "homepage": "https://github.com/asciisd/cashier-tap",
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "ext-intl": "*",
+        "dompdf/dompdf": "^0.8.0",
+        "illuminate/contracts": "^6.0|^7.0",
+        "illuminate/database": "^6.0|^7.0",
+        "illuminate/http": "^6.0|^7.0",
+        "illuminate/log": "^6.0|^7.0",
+        "illuminate/notifications": "^6.0|^7.0",
+        "illuminate/routing": "^6.0|^7.0",
+        "illuminate/support": "^6.0|^7.0",
+        "illuminate/view": "^6.0|^7.0",
+        "moneyphp/money": "^3.2",
+        "nesbot/carbon": "^2.0",
+        "symfony/http-kernel": "^4.3|^5.0",
+        "symfony/intl": "^4.3|^5.0",
+        "asciisd/tap-php": "^1.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.0",
+        "orchestra/testbench": "^4.0|^5.0",
+        "phpunit/phpunit": "^8.0|^9.0",
+        "phpstan/phpstan": "^0.12.9"
+    },
+    "suggest": {
+        "ext-intl": "Allows for more locales besides the default \"en\" when formatting money values."
+    },
+    "autoload": {
+        "psr-4": {
+            "Asciisd\\Cashier\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Asciisd\\Cashier\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Asciisd\\Cashier\\Providers\\CashierServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit -c ./phpunit.xml --colors=always",
+        "analysis": "vendor/bin/phpstan analyse"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

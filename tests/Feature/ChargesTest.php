@@ -1,11 +1,11 @@
 <?php
 
-namespace Asciisd\Cashier\Tests\Integration;
+namespace Asciisd\Cashier\Tests\Feature;
 
 use Asciisd\Cashier\Exceptions\PaymentActionRequired;
 use Asciisd\Cashier\Payment;
 
-class ChargesTest extends IntegrationTestCase
+class ChargesTest extends FeatureTestCase
 {
     public function test_customer_can_be_charged()
     {
