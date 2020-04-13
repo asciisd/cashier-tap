@@ -136,12 +136,22 @@ class Payment
     public function payment_method_icon()
     {
         $method = Str::lower($this->payment_method());
+
+        if ($method === 'Credit Card') {
+            $method = 'default';
+        }
+
         return url("vendor/cashier/img/invoice/card/{$method}-dark@2x.png");
     }
 
     public function payment_method_svg()
     {
         $method = Str::lower($this->payment_method());
+
+        if ($method === 'Credit Card') {
+            $method = 'default';
+        }
+
         return url("vendor/cashier/img/invoice/card/svg/{$method}.svg");
     }
 
