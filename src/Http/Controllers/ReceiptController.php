@@ -23,6 +23,10 @@ class ReceiptController
             Charge::retrieve($request->tap_id, Cashier::tapOptions())
         );
 
+        if ($request->user()->id !== $payment->owner()->id) {
+            throw new Exception('Sorry! But this invoice did\'t belongs to you.');
+        }
+
         TapReceiptSeen::dispatch($payment);
 
         return view('cashier::receipt', ['payment' => $payment] + Cashier::invoiceDataFor($payment->owner()));
