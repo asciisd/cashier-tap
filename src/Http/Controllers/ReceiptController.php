@@ -6,6 +6,7 @@ use Asciisd\Cashier\Cashier;
 use Asciisd\Cashier\Events\TapReceiptSeen;
 use Asciisd\Cashier\Payment;
 use Illuminate\Http\Request;
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\View\View;
 use Tap\Charge;
 
@@ -24,7 +25,7 @@ class ReceiptController
         );
 
         if ($request->user()->tap_id !== $payment->owner()->tap_id) {
-            throw new Exception('Sorry! But this invoice did\'t belongs to you.');
+            throw new UnauthorizedException('Sorry! But this invoice did\'t belongs to you.');
         }
 
         TapReceiptSeen::dispatch($payment);
