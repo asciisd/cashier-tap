@@ -23,6 +23,10 @@ class Payment
 {
     use Downloadable;
 
+    const SUCCESS_RESPONSE = ['CAPTURED'];
+    const FAILED_RESPONSE = ['ABANDONED', 'CANCELLED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN', 'NOT CAPTURED'];
+    const NEED_MORE_ACTION = ['INITIATED'];
+
     /**
      * The Tap Charge instance.
      *
@@ -98,7 +102,7 @@ class Payment
      */
     public function isSucceeded()
     {
-        return $this->charge->status === 'CAPTURED';
+        return in_array($this->charge->status, self::SUCCESS_RESPONSE);
     }
 
     /**
@@ -108,19 +112,12 @@ class Payment
      */
     public function isFailure()
     {
-        return in_array($this->charge->status, [
-            'ABANDONED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN'
-        ]);
+        return in_array($this->charge->status, self::FAILED_RESPONSE);
     }
 
     public function receipt_no()
     {
         return $this->charge->receipt->id;
-    }
-
-    public function receipt()
-    {
-        return config('cashier.redirect_url') . '?tap_id=' . $this->charge->id;
     }
 
     public function last_4()

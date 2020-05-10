@@ -106,6 +106,7 @@ trait ManagesCustomer
      * Get the Tap customer for the model.
      *
      * @return TapCustomer
+     * @throws InvalidCustomer
      */
     public function asTapCustomer()
     {

@@ -378,7 +378,7 @@
                                      src="{{ $payment->payment_method_icon() }}"
                                      style="border: 0; margin: 0; padding: 0; vertical-align: text-bottom;">
                               </span>
-                                                        <span> – {{ $payment->last_4() }}</span>
+                                                        @if($payment->last_4() != '0000')<span> – {{ $payment->last_4() }}</span>@endif
                                                     </td>
                                                 </tr>
                                                 </tbody>

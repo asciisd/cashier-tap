@@ -21,7 +21,7 @@ class TapReceiptSeen
     /**
      * Create a new event instance.
      *
-     * @param Charge $payment
+     * @param Payment $payment
      * @return void
      */
     public function __construct($payment)

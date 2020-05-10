@@ -4,8 +4,8 @@ namespace Asciisd\Cashier\Http\Controllers;
 
 use Asciisd\Cashier\Cashier;
 use Asciisd\Cashier\Events\TapReceiptSeen;
+use Asciisd\Cashier\Http\Requests\ReceiptRequest;
 use Asciisd\Cashier\Payment;
-use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\View\View;
 use Tap\Charge;
@@ -15,10 +15,10 @@ class ReceiptController
     /**
      * Display receipt.
      *
-     * @param Request $request
+     * @param ReceiptRequest $request
      * @return View
      */
-    public function show(Request $request)
+    public function show(ReceiptRequest $request)
     {
         $payment = new Payment(
             Charge::retrieve($request->tap_id, Cashier::tapOptions())

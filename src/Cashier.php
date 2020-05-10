@@ -22,7 +22,7 @@ class Cashier
      *
      * @var string
      */
-    const VERSION = '1.0.6';
+    const VERSION = '1.1.0';
 
     /**
      * The Tap API version.
@@ -109,6 +109,17 @@ class Cashier
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());
 
         return $moneyFormatter->format($money);
+    }
+
+    /**
+     * generate receipt link to show the charge receipt on web
+     *
+     * @param $receipt_id
+     * @return string
+     */
+    public static function receipt($receipt_id)
+    {
+        return config('cashier.redirect_url') . '?tap_id=' . $receipt_id;
     }
 
     /**

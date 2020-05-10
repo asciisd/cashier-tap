@@ -4,6 +4,7 @@ namespace Asciisd\Cashier\Providers;
 
 use Asciisd\Cashier\Cashier;
 use Asciisd\Cashier\Console\InstallCommand;
+use Asciisd\Cashier\Console\PublishCommand;
 use Asciisd\Cashier\Logger;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +47,7 @@ class CashierServiceProvider extends ServiceProvider
         $this->registerServices();
         $this->registerCommands();
 
-        if (! class_exists('Cashier')) {
+        if (!class_exists('Cashier')) {
             class_alias('Asciisd\Cashier\Cashier', 'Cashier');
         }
     }
@@ -171,6 +172,7 @@ class CashierServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 InstallCommand::class,
+                PublishCommand::class
             ]);
         }
     }

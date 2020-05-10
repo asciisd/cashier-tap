@@ -31,8 +31,8 @@ class InstallCommand extends Command
         $this->comment('Publishing Cashier Service Provider...');
         $this->callSilent('vendor:publish', ['--tag' => 'cashier-provider']);
 
-        $this->comment('Publishing Cashier Assets...');
-        $this->callSilent('vendor:publish', ['--tag' => 'cashier-assets']);
+        $this->comment('Publishing Cashier Views...');
+        $this->callSilent('vendor:publish', ['--tag' => 'cashier-views']);
 
         $this->comment('Publishing Cashier Configuration...');
         $this->callSilent('vendor:publish', ['--tag' => 'cashier-config']);
