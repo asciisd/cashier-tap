@@ -22,7 +22,7 @@ class Cashier
      *
      * @var string
      */
-    const VERSION = '1.1.0';
+    const VERSION = '1.1.1';
 
     /**
      * The Tap API version.
@@ -95,15 +95,16 @@ class Cashier
      *
      * @param int $amount
      * @param string|null $currency
+     * @param int $multiply_by
      * @return string
      */
-    public static function formatAmount($amount, $currency = null)
+    public static function formatAmount($amount, $currency = null, $multiply_by = 100)
     {
         if (static::$formatCurrencyUsing) {
             return call_user_func(static::$formatCurrencyUsing, $amount, $currency);
         }
 
-        $money = new Money($amount * 100, new Currency(strtoupper($currency ?? config('cashier.currency'))));
+        $money = new Money($amount * $multiply_by, new Currency(strtoupper($currency ?? config('cashier.currency'))));
 
         $numberFormatter = new NumberFormatter(config('cashier.currency_locale'), NumberFormatter::CURRENCY);
         $moneyFormatter = new IntlMoneyFormatter($numberFormatter, new ISOCurrencies());

@@ -52,6 +52,9 @@ class Payment
      */
     public function amount()
     {
+        if ($this->currency === 'KWD')
+            return Cashier::formatAmount($this->rawAmount(), $this->charge->currency, 1000);
+
         return Cashier::formatAmount($this->rawAmount(), $this->charge->currency);
     }
 
