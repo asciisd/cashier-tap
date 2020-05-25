@@ -153,6 +153,11 @@ class Payment
         return url("vendor/cashier/img/invoice/status/{$status}.png");
     }
 
+    public function status()
+    {
+        return $this->charge->status;
+    }
+
     /**
      * Validate if the payment intent was successful and throw an exception if not.
      *
