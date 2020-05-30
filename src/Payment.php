@@ -130,7 +130,7 @@ class Payment
 
     public function payment_method()
     {
-        return Str::title($this->charge->source->payment_method ?? 'Credit Card');
+        return Str::title($this->charge->source->payment_method ?? 'Card');
     }
 
     public function payment_method_icon()
