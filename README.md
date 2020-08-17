@@ -8,11 +8,70 @@ Laravel Cashier-tap provides an expressive, fluent interface to Tap's company su
 
 ## Installation
 
-Information about the installation procedure for this package.
+#### 1- Run composer required command:
+You can install the bindings via [Composer](http://getcomposer.org/). Run the following command:
+
+``` bash
+$ composer require asciisd/cashier-tap
+```
+
+#### 2- Run install command:
+this command will install `ServiceProvider`, `Configs` and `views`
+``` bash
+$ php artisan cashier:install
+```
+
+#### 3- Run publish command:
+this command will knet assets 
+```bash
+$ php artisan cashier:publish
+```
+
+#### 4- Run migration command:
+table by run the migrations:
+``` bash
+$ php artisan migrate
+```
 
 ## Using this package
 
-not yet finished, we wil provide usage example after finished the development
+`not yet finished, you can use this package as following example:-`
+
+add `Billable` trait to the User model
+```php
+namespace App;
+
+use Asciisd\Cashier\Billable;
+
+class User extends Authenticatable {
+   use Billable;
+}
+```
+
+`use pay() method`
+```php
+try{
+    //allowed payment methods is ['src_kw.knet', 'src_all', 'src_card']
+    $payment_method = 'src_card';
+    $payment = $user->charge(10, $payment_method);
+
+    $payment->url; // this will return payment link
+} catch(\Asciisd\Cashier\Exceptions\PaymentActionRequired $exception) {
+    $payment = $exception->payment;
+}
+
+return $payment->action_url();
+```
+
+> After finished the payment you will redirect to [/tap/receipt]()
+you can change that from config file to make your own handler, so please make sure to add this directory to the VerifyCsrfToken $except
+>also if you want to use webhook you should add [tap/webhook]() also to the VerifyCsrfToken $except method
+
+## Test cards
+| Card Number | Expiry Date | PIN | Status |
+| ---------------- | :----- | :---- | :------------ |
+| 5111111111111118 | 05/21 | 100 | CAPTURED |
+| 8888880000000002 | 05/22 | 100 | NOT CAPTURED |
 
 ## Contributing
 
