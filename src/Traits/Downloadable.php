@@ -48,7 +48,7 @@ trait Downloadable
      * Create an invoice download response.
      *
      * @param  array  $data
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     public function download(array $data)
     {
@@ -62,9 +62,9 @@ trait Downloadable
      *
      * @param  string  $filename
      * @param  array  $data
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function downloadAs($filename, array $data)
+    public function downloadAs(string $filename, array $data)
     {
         return new Response($this->pdf($data), 200, [
             'Content-Description' => 'File Transfer',

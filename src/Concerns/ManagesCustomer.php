@@ -163,8 +163,9 @@ trait ManagesCustomer
      *
      * @param string $coupon
      * @return void
+     * @throws InvalidCustomer
      */
-    public function applyCoupon($coupon)
+    public function applyCoupon(string $coupon)
     {
         $this->assertCustomerExists();
 

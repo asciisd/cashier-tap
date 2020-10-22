@@ -40,7 +40,7 @@ class Payment
      * @param TapObject $paymentIntent
      * @return void
      */
-    public function __construct($paymentIntent)
+    public function __construct(TapObject $paymentIntent)
     {
         $this->charge = $paymentIntent;
     }
@@ -81,9 +81,9 @@ class Payment
     /**
      * get url of charge action
      *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     * @return string
      */
-    public function action_url()
+    public function actionUrl()
     {
         return $this->charge->transaction->url ?? url('/');
     }
@@ -118,36 +118,36 @@ class Payment
         return in_array($this->charge->status, self::FAILED_RESPONSE);
     }
 
-    public function receipt_no()
+    public function receiptNo()
     {
         return $this->charge->receipt->id;
     }
 
-    public function last_4()
+    public function last4()
     {
         return $this->charge->card->last_four ?? '0000';
     }
 
-    public function payment_method()
+    public function paymentMethod()
     {
         return Str::title($this->charge->source->payment_method ?? 'Card');
     }
 
-    public function payment_method_icon()
+    public function paymentMethodIcon()
     {
-        $method = Str::lower(Str::kebab($this->payment_method()));
+        $method = Str::lower(Str::kebab($this->paymentMethod()));
 
         return url("vendor/cashier/img/invoice/card/{$method}-dark@2x.png");
     }
 
-    public function payment_method_svg()
+    public function paymentMethodSvg()
     {
-        $method = Str::lower(Str::kebab($this->payment_method()));
+        $method = Str::lower(Str::kebab($this->paymentMethod()));
 
         return url("vendor/cashier/img/invoice/card/svg/{$method}.svg");
     }
 
-    public function status_icon()
+    public function statusIcon()
     {
         $status = Str::lower($this->charge->status);
         return url("vendor/cashier/img/invoice/status/{$status}.png");
@@ -178,8 +178,8 @@ class Payment
     /**
      * Get a Carbon date for the invoice.
      *
-     * @param \DateTimeZone|string $timezone
-     * @return \Carbon\Carbon
+     * @param null $timezone
+     * @return Carbon
      */
     public function date($timezone = null)
     {
@@ -214,7 +214,7 @@ class Payment
      * @param string $key
      * @return mixed
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->charge->$key;
     }

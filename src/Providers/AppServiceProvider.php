@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      * @var string
      */
     protected $sendSupportEmailsTo = null;
+
     /**
      * Bootstrap any application services.
      *
@@ -40,8 +41,6 @@ class AppServiceProvider extends ServiceProvider
         if (count($this->developers) > 0) {
             Cashier::developers($this->developers);
         }
-
-        $this->booted();
     }
 
     /**

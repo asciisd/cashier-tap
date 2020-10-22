@@ -1,15 +1,14 @@
 <?php
 
-
 namespace Asciisd\Cashier\Concerns;
 
-
-use Asciisd\Cashier\Exceptions\InvalidCustomer;
 use Asciisd\Cashier\Exceptions\PaymentActionRequired;
 use Asciisd\Cashier\Exceptions\PaymentFailure;
 use Asciisd\Cashier\Payment;
 use Tap\Charge;
+use Tap\Customer;
 use Tap\Refund;
+use Tap\TapObject;
 
 trait PerformsCharges
 {
@@ -25,9 +24,8 @@ trait PerformsCharges
      *
      * @throws PaymentActionRequired
      * @throws PaymentFailure
-     * @throws InvalidCustomer
      */
-    public function charge($amount, $paymentMethod, array $options = [])
+    public function charge(int $amount, string $paymentMethod, array $options = [])
     {
         $options = array_merge([
             'currency' => $this->preferredCurrency(),
@@ -60,11 +58,11 @@ trait PerformsCharges
     /**
      * Refund a customer for a charge.
      *
-     * @param  string  $charge
-     * @param  array  $options
-     * @return array|\Tap\Customer|Refund|\Tap\TapObject
+     * @param string $charge
+     * @param array $options
+     * @return array|Customer|Refund|TapObject
      */
-    public function refund($charge, array $options = [])
+    public function refund(string $charge, array $options = [])
     {
         return Refund::create(
             ['charge_id' => $charge] + $options,

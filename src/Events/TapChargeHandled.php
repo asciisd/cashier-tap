@@ -23,7 +23,7 @@ class TapChargeHandled
      * @param TapWebhookRequest $payload
      * @return void
      */
-    public function __construct($payload)
+    public function __construct(TapWebhookRequest $payload)
     {
         $this->payload = $payload;
     }

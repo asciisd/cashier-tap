@@ -24,7 +24,7 @@ class TapReceiptSeen
      * @param Payment $payment
      * @return void
      */
-    public function __construct($payment)
+    public function __construct(Payment $payment)
     {
         $this->payment = $payment;
     }

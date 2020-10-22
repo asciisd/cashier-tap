@@ -39,7 +39,7 @@ trait ManagesSupportOptions
      * @param string $address
      * @return void
      */
-    public static function sendSupportEmailsTo($address)
+    public static function sendSupportEmailsTo(string $address)
     {
         static::$sendsSupportEmailsTo = $address;
     }

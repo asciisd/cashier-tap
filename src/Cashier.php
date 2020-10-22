@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Asciisd\Cashier;
-
 
 use Asciisd\Cashier\Traits\ManagesAppDetails;
 use Asciisd\Cashier\Traits\ManagesSupportOptions;
@@ -98,7 +96,7 @@ class Cashier
      * @param int $multiply_by
      * @return string
      */
-    public static function formatAmount($amount, $currency = null, $multiply_by = 100)
+    public static function formatAmount(int $amount, $currency = null, $multiply_by = 100)
     {
         if (static::$formatCurrencyUsing) {
             return call_user_func(static::$formatCurrencyUsing, $amount, $currency);
@@ -129,7 +127,7 @@ class Cashier
      * @param string $tapId
      * @return Billable|null
      */
-    public static function findBillable($tapId)
+    public static function findBillable(string $tapId)
     {
         if ($tapId === null) {
             return null;
