@@ -60,7 +60,7 @@ try{
     $payment = $exception->payment;
 }
 
-return $payment->action_url();
+return $payment->actionUrl();
 ```
 
 > After finished the payment you will redirect to [/tap/receipt]()
