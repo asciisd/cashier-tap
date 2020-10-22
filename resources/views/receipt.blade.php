@@ -264,7 +264,7 @@
                             </td>
                             <td class="Content Title-copy Font Font--title" align="center"
                                 style="border: 0;border-collapse: collapse;margin: 0;padding: 0;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;width: 472px;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif;mso-line-height-rule: exactly;vertical-align: middle;color: #8898aa;font-size: 15px;line-height: 18px;">
-                                Receipt #{{ $payment->receipt_no() }}
+                                Receipt #{{ $payment->receiptNo() }}
                             </td>
                             <td class="Spacer Spacer--gutter" width="64"
                                 style="border: 0;border-collapse: collapse;margin: 0;padding: 0;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;color: #ffffff;font-size: 1px;line-height: 1px;mso-line-height-rule: exactly;">
@@ -375,10 +375,10 @@
                                                         style="border: 0;border-collapse: collapse;margin: 0;padding: 0;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Ubuntu, sans-serif;mso-line-height-rule: exactly;vertical-align: middle;color: #525f7f;font-size: 15px;line-height: 24px;white-space: nowrap;">
                               <span>
                                 <img alt="Mastercard" height="16"
-                                     src="{{ $payment->payment_method_icon() }}"
+                                     src="{{ $payment->paymentMethodIcon() }}"
                                      style="border: 0; margin: 0; padding: 0; vertical-align: text-bottom;">
                               </span>
-                                                        @if($payment->last_4() != '0000')<span> – {{ $payment->last_4() }}</span>@endif
+                                                        @if($payment->last4() != '0000')<span> – {{ $payment->last4() }}</span>@endif
                                                     </td>
                                                 </tr>
                                                 </tbody>

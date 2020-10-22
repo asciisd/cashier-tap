@@ -92,7 +92,7 @@
                 <table align="right" width="200">
                     <tr>
                         <td style="text-align: left">Receipt number</td>
-                        <td style="text-align: right"><strong>{{ $invoice->receipt_no() }}</strong></td>
+                        <td style="text-align: right"><strong>{{ $invoice->receiptNo() }}</strong></td>
                     </tr>
                     <tr>
                         <td style="text-align: left">Invoice number</td>
@@ -105,7 +105,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left">Payment method</td>
-                        <td style="text-align: right"><strong>{{ $invoice->payment_method() }}</strong></td>
+                        <td style="text-align: right"><strong>{{ $invoice->paymentMethod() }}</strong></td>
                     </tr>
                 </table>
             </td>
