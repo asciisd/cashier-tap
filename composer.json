@@ -1,7 +1,12 @@
 {
     "name": "asciisd/cashier-tap",
     "description": "Asciisd Cashier provides an expressive, fluent interface to Tap's subscription billing services.",
-    "keywords": ["Laravel", "Cashier", "Tap", "Cashier Tap"],
+    "keywords": [
+        "Laravel",
+        "Cashier",
+        "Tap",
+        "Cashier Tap"
+    ],
     "license": "MIT",
     "support": {
         "issues": "https://github.com/asciisd/cashier-tap/issues",
@@ -15,18 +20,18 @@
     ],
     "homepage": "https://github.com/asciisd/cashier-tap",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
         "ext-intl": "*",
         "dompdf/dompdf": "^0.8.0",
         "illuminate/contracts": "^7.0|^8.0",
-        "illuminate/database": "^7.0|^8.0",
-        "illuminate/http": "^7.0|^8.0",
-        "illuminate/log": "^7.0|^8.0",
-        "illuminate/notifications": "^7.0|^8.0",
-        "illuminate/routing": "^7.0|^8.0",
-        "illuminate/support": "^7.0|^8.0",
-        "illuminate/view": "^7.0|^8.0",
+        "illuminate/database": "7.0|^8.0",
+        "illuminate/http": "7.0|^8.0",
+        "illuminate/log": "7.0|^8.0",
+        "illuminate/notifications": "7.0|^8.0",
+        "illuminate/routing": "7.0|^8.0",
+        "illuminate/support": "7.0|^8.0",
+        "illuminate/view": "7.0|^8.0",
         "moneyphp/money": "^3.3",
         "nesbot/carbon": "^2.0",
         "symfony/http-kernel": "^5.0",
@@ -35,9 +40,8 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "orchestra/testbench": "^4.0|^5.0",
-        "phpunit/phpunit": "^8.0|^9.0",
-        "phpstan/phpstan": "^0.12.9"
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.3"
     },
     "suggest": {
         "ext-intl": "Allows for more locales besides the default \"en\" when formatting money values."
@@ -60,8 +64,8 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit -c ./phpunit.xml --colors=always",
-        "analysis": "vendor/bin/phpstan analyse"
+        "test": "vendor/bin/phpunit --colors=always",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
     },
     "config": {
         "sort-packages": true

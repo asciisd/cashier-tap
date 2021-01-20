@@ -52,7 +52,7 @@ class CreateCustomerColumns extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn([
-                'stripe_id',
+                'tap_id',
                 'card_brand',
                 'card_last_four',
                 'trial_ends_at',
