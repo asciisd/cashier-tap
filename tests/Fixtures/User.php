@@ -2,11 +2,11 @@
 
 namespace Asciisd\Cashier\Tests\Fixtures;
 
-use Illuminate\Foundation\Auth\User as Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Asciisd\Cashier\Billable;
 
-class User extends Model
+class User extends Authenticatable
 {
     use Billable, Notifiable;
 }
