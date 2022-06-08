@@ -37,7 +37,6 @@
         "nesbot/carbon": "^2.0",
         "symfony/http-kernel": "^5.0|^6.0",
         "symfony/polyfill-intl-icu": "^1.22.1",
-        "symfony/intl": "^5.0",
         "asciisd/tap-php": "^1.0"
     },
     "require-dev": {
