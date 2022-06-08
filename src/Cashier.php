@@ -20,7 +20,7 @@ class Cashier
      *
      * @var string
      */
-    const VERSION = '1.5.0';
+    const VERSION = '1.5.1';
 
     /**
      * The Tap API version.
