@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Asciisd\Cashier\Providers\AppServiceProvider as ServiceProvider;
+use Closure;
 
 class CashierServiceProvider extends ServiceProvider
 {
@@ -30,7 +31,7 @@ class CashierServiceProvider extends ServiceProvider
     protected $sendSupportEmailsTo = null;
 
     /**
-     * All of the application developer e-mail addresses.
+     * All the application developer e-mail addresses.
      *
      * @var array
      */
@@ -43,14 +44,15 @@ class CashierServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $usesApi = true;
+    protected bool $usesApi = true;
 
     /**
      * Finish configuring Spark for the application.
      *
+     * @param  Closure  $callback
      * @return void
      */
-    public function booted()
+    public function booted(Closure $callback)
     {
         //
     }
@@ -60,7 +62,7 @@ class CashierServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         parent::register();
     }

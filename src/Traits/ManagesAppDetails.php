@@ -1,10 +1,5 @@
-<?php
+<?php namespace Asciisd\Cashier\Traits;
 
-
-namespace Asciisd\Cashier\Traits;
-
-
-use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 
 trait ManagesAppDetails
@@ -14,22 +9,22 @@ trait ManagesAppDetails
      *
      * @var array
      */
-    public static $details = [];
+    public static array $details = [];
 
     /**
-     * The e-mail addresses of all of the application's developers.
+     * The e-mail addresses of all the application's developers.
      *
      * @var array
      */
-    public static $developers = [];
+    public static array $developers = [];
 
     /**
      * Define the application information.
      *
-     * @param array $details
+     * @param  array  $details
      * @return void
      */
-    public static function details(array $details)
+    public static function details(array $details): void
     {
         static::$details = $details;
     }
@@ -39,7 +34,7 @@ trait ManagesAppDetails
      *
      * @return string
      */
-    public static function product()
+    public static function product(): string
     {
         return static::$details['product'];
     }
@@ -49,27 +44,27 @@ trait ManagesAppDetails
      *
      * @return array
      */
-    public static function generateInvoicesWith()
+    public static function generateInvoicesWith(): array
     {
         return array_merge([
-            'vendor' => '',
-            'product' => '',
-            'street' => '',
+            'vendor'   => '',
+            'product'  => '',
+            'street'   => '',
             'location' => '',
-            'phone' => '',
+            'phone'    => '',
         ], static::$details);
     }
 
     /**
      * Get the invoice data payload for the given billable entity.
      *
-     * @param mixed $billable
+     * @param  mixed  $billable
      * @return array
      */
-    public static function invoiceDataFor($billable)
+    public static function invoiceDataFor(mixed $billable): array
     {
         return array_merge([
-            'vendor' => 'Vendor',
+            'vendor'  => 'Vendor',
             'product' => 'Product'
         ], static::generateInvoicesWith());
     }
@@ -77,10 +72,10 @@ trait ManagesAppDetails
     /**
      * Determine if the given e-mail address belongs to a developer.
      *
-     * @param string $email
+     * @param  string  $email
      * @return bool
      */
-    public static function developer($email)
+    public static function developer(string $email): bool
     {
         if (in_array($email, static::$developers)) {
             return true;
@@ -98,10 +93,10 @@ trait ManagesAppDetails
     /**
      * Set the e-mail addresses that are registered to developers.
      *
-     * @param array $developers
+     * @param  array  $developers
      * @return void
      */
-    public static function developers(array $developers)
+    public static function developers(array $developers): void
     {
         static::$developers = $developers;
     }

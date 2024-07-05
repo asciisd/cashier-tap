@@ -9,6 +9,7 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
+use Asciisd\Cashier\Contracts\Billable;
 
 class Cashier
 {
@@ -20,7 +21,7 @@ class Cashier
      *
      * @var string
      */
-    const VERSION = '1.5.1';
+    const VERSION = '2.1.0';
 
     /**
      * The Tap API version.
@@ -41,14 +42,14 @@ class Cashier
      *
      * @var bool
      */
-    public static $runsMigrations = true;
+    public static bool $runsMigrations = true;
 
     /**
      * Indicates if Cashier routes will be registered.
      *
      * @var bool
      */
-    public static $registersRoutes = true;
+    public static bool $registersRoutes = true;
 
     /**
      * Get the default Tap API options.
@@ -56,7 +57,7 @@ class Cashier
      * @param array $options
      * @return array
      */
-    public static function tapOptions(array $options = [])
+    public static function tapOptions(array $options = []): array
     {
         return array_merge([
             'api_key' => config('cashier.secret'),
@@ -69,7 +70,7 @@ class Cashier
      *
      * @return static
      */
-    public static function ignoreMigrations()
+    public static function ignoreMigrations(): static
     {
         static::$runsMigrations = false;
 
@@ -81,7 +82,7 @@ class Cashier
      *
      * @return static
      */
-    public static function ignoreRoutes()
+    public static function ignoreRoutes(): static
     {
         static::$registersRoutes = false;
 
@@ -92,11 +93,11 @@ class Cashier
      * Format the given amount into a displayable currency.
      *
      * @param int $amount
-     * @param string|null $currency
-     * @param int $multiply_by
+     * @param  string|null  $currency
+     * @param  int  $multiply_by
      * @return string
      */
-    public static function formatAmount(int $amount, $currency = null, $multiply_by = 100)
+    public static function formatAmount(int $amount, string $currency = null, int $multiply_by = 100): string
     {
         if (static::$formatCurrencyUsing) {
             return call_user_func(static::$formatCurrencyUsing, $amount, $currency);
@@ -116,7 +117,7 @@ class Cashier
      * @param $receipt_id
      * @return string
      */
-    public static function receipt($receipt_id)
+    public static function receipt($receipt_id): string
     {
         return config('cashier.redirect_url') . '?tap_id=' . $receipt_id;
     }
@@ -125,11 +126,11 @@ class Cashier
      * Get the billable entity instance by Stripe ID.
      *
      * @param string $tapId
-     * @return Billable|null
+     * @return ?Billable
      */
-    public static function findBillable(string $tapId)
+    public static function findBillable(string $tapId): ?Billable
     {
-        if ($tapId === null) {
+        if ($tapId == null) {
             return null;
         }
 

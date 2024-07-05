@@ -12,7 +12,7 @@ class Logger implements TapLogger
      *
      * @var LoggerInterface
      */
-    protected $logger;
+    protected LoggerInterface $logger;
 
     /**
      * Create a new Logger instance.
@@ -28,7 +28,7 @@ class Logger implements TapLogger
     /**
      * {@inheritdoc}
      */
-    public function error($message, array $context = [])
+    public function error($message, array $context = []): void
     {
         $this->logger->error($message, $context);
     }

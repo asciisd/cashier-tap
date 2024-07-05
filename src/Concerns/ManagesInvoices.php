@@ -6,17 +6,18 @@ namespace Asciisd\Cashier\Concerns;
 
 use Asciisd\Cashier\Cashier;
 use Tap\Invoice;
+use Tap\TapObject;
 
 trait ManagesInvoices
 {
-    public static function tapInvoices($limit = 25)
+    public static function tapInvoices($limit = 25): TapObject|array
     {
-        Invoice::all(['limit' => $limit], Cashier::tapOptions());
+        return Invoice::all(['limit' => $limit], Cashier::tapOptions());
     }
 
     public function createTapInvoice($amount, $trading_account, $currency = 'KWD', $options = [])
     {
-        Invoice::create(array_merge([
+        return Invoice::create(array_merge([
             "due"      => now()->getPreciseTimestamp(3),
             "expiry"   => now()->addDays(10)->getPreciseTimestamp(3),
             "customer" => [

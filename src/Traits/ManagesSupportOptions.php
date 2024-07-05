@@ -11,14 +11,14 @@ trait ManagesSupportOptions
      *
      * @var string
      */
-    public static $sendsSupportEmailsTo;
+    public static string $sendsSupportEmailsTo;
 
     /**
      * Determine if a support address has been configured.
      *
      * @return bool
      */
-    public static function hasSupportAddress()
+    public static function hasSupportAddress(): bool
     {
         return !is_null(static::$sendsSupportEmailsTo);
     }
@@ -26,9 +26,9 @@ trait ManagesSupportOptions
     /**
      * Get the e-mail address to send customer support e-mails to.
      *
-     * @return string|null
+     * @return string
      */
-    public static function supportAddress()
+    public static function supportAddress(): string
     {
         return static::$sendsSupportEmailsTo;
     }
@@ -39,7 +39,7 @@ trait ManagesSupportOptions
      * @param string $address
      * @return void
      */
-    public static function sendSupportEmailsTo(string $address)
+    public static function sendSupportEmailsTo(string $address): void
     {
         static::$sendsSupportEmailsTo = $address;
     }

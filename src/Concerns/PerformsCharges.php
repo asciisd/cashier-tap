@@ -2,6 +2,7 @@
 
 namespace Asciisd\Cashier\Concerns;
 
+use Asciisd\Cashier\Exceptions\InvalidCustomer;
 use Asciisd\Cashier\Exceptions\PaymentActionRequired;
 use Asciisd\Cashier\Exceptions\PaymentFailure;
 use Asciisd\Cashier\Payment;
@@ -17,15 +18,16 @@ trait PerformsCharges
      *
      * allowed payment methods is ['src_kw.knet', 'src_all', 'src_card']
      *
-     * @param int $amount
-     * @param string $paymentMethod
-     * @param array $options
+     * @param  int  $amount
+     * @param  string  $paymentMethod
+     * @param  array  $options
      * @return Payment
      *
      * @throws PaymentActionRequired
      * @throws PaymentFailure
+     * @throws InvalidCustomer
      */
-    public function charge(int $amount, string $paymentMethod, array $options = [])
+    public function charge(int $amount, string $paymentMethod, array $options = []): Payment
     {
         $options = array_merge([
             'currency' => $this->preferredCurrency(),
@@ -62,7 +64,7 @@ trait PerformsCharges
      * @param array $options
      * @return array|Customer|Refund|TapObject
      */
-    public function refund(string $charge, array $options = [])
+    public function refund(string $charge, array $options = []): TapObject|array|Customer|Refund
     {
         return Refund::create(
             ['charge_id' => $charge] + $options,

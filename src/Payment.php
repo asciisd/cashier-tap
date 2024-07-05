@@ -2,6 +2,7 @@
 
 namespace Asciisd\Cashier;
 
+use Asciisd\Cashier\Contracts\Billable;
 use Asciisd\Cashier\Exceptions\PaymentActionRequired;
 use Asciisd\Cashier\Exceptions\PaymentFailure;
 use Asciisd\Cashier\Traits\Downloadable;
@@ -24,20 +25,22 @@ class Payment
     use Downloadable;
 
     const SUCCESS_RESPONSE = ['CAPTURED'];
-    const FAILED_RESPONSE = ['ABANDONED', 'CANCELLED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN', 'NOT CAPTURED'];
     const NEED_MORE_ACTION = ['INITIATED'];
+    const FAILED_RESPONSE = [
+        'ABANDONED', 'CANCELLED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN', 'NOT CAPTURED'
+    ];
 
     /**
      * The Tap Charge instance.
      *
-     * @var Charge
+     * @var Charge|TapObject
      */
-    protected $charge;
+    protected TapObject|Charge $charge;
 
     /**
      * Create a new Payment instance.
      *
-     * @param TapObject $paymentIntent
+     * @param  TapObject  $paymentIntent
      * @return void
      */
     public function __construct(TapObject $paymentIntent)
@@ -50,10 +53,11 @@ class Payment
      *
      * @return string
      */
-    public function amount()
+    public function amount(): string
     {
-        if ($this->currency === 'KWD')
+        if ($this->currency === 'KWD') {
             return Cashier::formatAmount($this->rawAmount(), $this->charge->currency, 1000);
+        }
 
         return Cashier::formatAmount($this->rawAmount(), $this->charge->currency);
     }
@@ -63,7 +67,7 @@ class Payment
      *
      * @return int
      */
-    public function rawAmount()
+    public function rawAmount(): int
     {
         return $this->charge->amount;
     }
@@ -73,7 +77,7 @@ class Payment
      *
      * @return bool
      */
-    public function requiresAction()
+    public function requiresAction(): bool
     {
         return $this->charge->status === 'INITIATED';
     }
@@ -83,7 +87,7 @@ class Payment
      *
      * @return string
      */
-    public function actionUrl()
+    public function actionUrl(): string
     {
         return $this->charge->transaction->url ?? url('/');
     }
@@ -93,7 +97,7 @@ class Payment
      *
      * @return bool
      */
-    public function isCancelled()
+    public function isCancelled(): bool
     {
         return $this->charge->status === 'CANCELLED';
     }
@@ -103,7 +107,7 @@ class Payment
      *
      * @return bool
      */
-    public function isSucceeded()
+    public function isSucceeded(): bool
     {
         return in_array($this->charge->status, self::SUCCESS_RESPONSE);
     }
@@ -113,7 +117,7 @@ class Payment
      *
      * @return bool
      */
-    public function isFailure()
+    public function isFailure(): bool
     {
         return in_array($this->charge->status, self::FAILED_RESPONSE);
     }
@@ -128,26 +132,26 @@ class Payment
         return $this->charge->card->last_four ?? '0000';
     }
 
-    public function paymentMethod()
+    public function paymentMethod(): string
     {
         return Str::title($this->charge->source->payment_method ?? 'Card');
     }
 
-    public function paymentMethodIcon()
+    public function paymentMethodIcon(): string
     {
         $method = Str::lower(Str::kebab($this->paymentMethod()));
 
         return url("vendor/cashier/img/invoice/card/{$method}-dark@2x.png");
     }
 
-    public function paymentMethodSvg()
+    public function paymentMethodSvg(): string
     {
         $method = Str::lower(Str::kebab($this->paymentMethod()));
 
         return url("vendor/cashier/img/invoice/card/svg/{$method}.svg");
     }
 
-    public function statusIcon()
+    public function statusIcon(): string
     {
         $status = Str::lower($this->charge->status);
         return url("vendor/cashier/img/invoice/status/{$status}.png");
@@ -166,7 +170,7 @@ class Payment
      * @throws PaymentActionRequired
      * @throws PaymentFailure
      */
-    public function validate()
+    public function validate(): void
     {
         if ($this->isFailure()) {
             throw PaymentFailure::invalidPaymentMethod($this);
@@ -178,10 +182,10 @@ class Payment
     /**
      * Get a Carbon date for the invoice.
      *
-     * @param null $timezone
+     * @param  null  $timezone
      * @return Carbon
      */
-    public function date($timezone = null)
+    public function date($timezone = null): Carbon
     {
         $carbon = Carbon::createFromTimestampMs($this->charge->transaction->created);
 
@@ -191,9 +195,9 @@ class Payment
     /**
      * The Tap Charge instance.
      *
-     * @return Charge
+     * @return Charge|TapObject
      */
-    public function asTapCharge()
+    public function asTapCharge(): Charge|TapObject
     {
         return $this->charge;
     }
@@ -201,9 +205,9 @@ class Payment
     /**
      * The Tap model instance.
      *
-     * @return Billable|null
+     * @return ?Billable
      */
-    public function owner()
+    public function owner(): ?Billable
     {
         return Cashier::findBillable($this->charge->customer->id);
     }
@@ -211,7 +215,7 @@ class Payment
     /**
      * Dynamically get values from the Tap Charge.
      *
-     * @param string $key
+     * @param  string  $key
      * @return mixed
      */
     public function __get(string $key)

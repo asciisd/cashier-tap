@@ -13,17 +13,15 @@ trait ManagesPaymentMethods
      *
      * @return bool
      */
-    public function hasPaymentMethod()
+    public function hasPaymentMethod(): bool
     {
         return (bool)$this->card_brand;
     }
 
     /**
      * Get the default payment method for the entity.
-     *
-     * @return string|null
      */
-    public function defaultPaymentMethod()
+    public function defaultPaymentMethod(): ?string
     {
         if (!$this->hasTapId()) {
             return null;

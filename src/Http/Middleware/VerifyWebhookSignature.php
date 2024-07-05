@@ -22,6 +22,10 @@ class VerifyWebhookSignature
      */
     public function handle(Request $request, Closure $next)
     {
+        logger()->info('VerifyWebhookSignature@handle');
+        logger()->info('Request headers: ' . json_encode($request->header()));
+        logger()->info('Request: ' . json_encode($request->all()));
+
         try {
             WebhookSignature::verifyHeader(
                 $request->all(),
@@ -30,6 +34,7 @@ class VerifyWebhookSignature
                 config('cashier.webhook.tolerance')
             );
         } catch (SignatureVerificationException $exception) {
+            logger()->error($exception->getMessage());
             throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         }
 

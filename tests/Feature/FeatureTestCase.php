@@ -18,9 +18,9 @@ abstract class FeatureTestCase extends TestCase
     /**
      * @var string
      */
-    protected static $tapPrefix = 'cashier-test-';
+    protected static string $tapPrefix = 'cashier-test-';
 
-    protected static $test_card = [
+    protected static array $test_card = [
             'card' => [
                 'number' => '5111111111111118',
                 'exp_month' => '05',

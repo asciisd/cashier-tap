@@ -14,9 +14,9 @@ trait ManagesCustomer
     /**
      * Retrieve the Stripe customer ID.
      *
-     * @return string|null
+     * @return ?string
      */
-    public function tapId()
+    public function tapId(): ?string
     {
         return $this->tap_id;
     }
@@ -26,7 +26,7 @@ trait ManagesCustomer
      *
      * @return bool
      */
-    public function hasTapId()
+    public function hasTapId(): bool
     {
         return !is_null($this->tap_id);
     }
@@ -37,7 +37,7 @@ trait ManagesCustomer
      * @return void
      * @throws InvalidCustomer
      */
-    protected function assertCustomerExists()
+    protected function assertCustomerExists(): void
     {
         if (!$this->tap_id) {
             throw InvalidCustomer::nonCustomer($this);
@@ -51,7 +51,7 @@ trait ManagesCustomer
      * @return TapCustomer
      * @throws InvalidCustomer
      */
-    public function createAsTapCustomer(array $options = [])
+    public function createAsTapCustomer(array $options = []): TapCustomer
     {
         if ($this->tap_id) {
             throw InvalidCustomer::exists($this);
@@ -79,7 +79,7 @@ trait ManagesCustomer
      * @param array $options
      * @return array|TapCustomer|TapObject
      */
-    public function updateTapCustomer(array $options = [])
+    public function updateTapCustomer(array $options = []): TapObject|array|TapCustomer
     {
         return TapCustomer::update(
             $this->tap_id, $options, $this->tapOptions()
@@ -93,7 +93,7 @@ trait ManagesCustomer
      * @return TapCustomer
      * @throws InvalidCustomer
      */
-    public function createOrGetTapCustomer(array $options = [])
+    public function createOrGetTapCustomer(array $options = []): TapCustomer
     {
         if ($this->tap_id) {
             return $this->asTapCustomer();
@@ -108,7 +108,7 @@ trait ManagesCustomer
      * @return TapCustomer
      * @throws InvalidCustomer
      */
-    public function asTapCustomer()
+    public function asTapCustomer(): TapCustomer
     {
         $this->assertCustomerExists();
 
@@ -118,9 +118,9 @@ trait ManagesCustomer
     /**
      * Get the email address used to create the customer in Tap.
      *
-     * @return string|null
+     * @return string
      */
-    public function tapEmail()
+    public function tapEmail(): string
     {
         return $this->email;
     }
@@ -128,9 +128,9 @@ trait ManagesCustomer
     /**
      * Get the phone used to create the customer in Tap.
      *
-     * @return array|null
+     * @return array ['country_code' => string, 'number' => string]
      */
-    public function tapPhone()
+    public function tapPhone(): array
     {
         return [
             'country_code' => $this->phone_code,
@@ -141,9 +141,9 @@ trait ManagesCustomer
     /**
      * Get the first name used to create the customer in Tap.
      *
-     * @return string|null
+     * @return string
      */
-    public function tapFirstName()
+    public function tapFirstName(): string
     {
         return $this->first_name;
     }
@@ -151,9 +151,9 @@ trait ManagesCustomer
     /**
      * Get the last name used to create the customer in Tap.
      *
-     * @return string|null
+     * @return string
      */
-    public function tapLastName()
+    public function tapLastName(): string
     {
         return $this->last_name;
     }
@@ -165,7 +165,7 @@ trait ManagesCustomer
      * @return void
      * @throws InvalidCustomer
      */
-    public function applyCoupon(string $coupon)
+    public function applyCoupon(string $coupon): void
     {
         $this->assertCustomerExists();
 
@@ -181,7 +181,7 @@ trait ManagesCustomer
      *
      * @return string
      */
-    public function preferredCurrency()
+    public function preferredCurrency(): string
     {
         return config('cashier.currency');
     }
@@ -192,12 +192,12 @@ trait ManagesCustomer
      * @param array $options
      * @return array
      */
-    public function tapOptions(array $options = [])
+    public function tapOptions(array $options = []): array
     {
         return Cashier::tapOptions($options);
     }
 
-    public function tapCustomerFields()
+    public function tapCustomerFields(): array
     {
         return [
             'first_name' => $this->tapFirstName(),
