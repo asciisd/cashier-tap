@@ -25,6 +25,8 @@ class WebhookController extends Controller
      */
     public function __construct()
     {
+        logger()->info('WebhookController | __construct', request()->all());
+
         if (config('cashier.webhook.secret')) {
             $this->middleware(VerifyWebhookSignature::class);
         }
@@ -38,6 +40,8 @@ class WebhookController extends Controller
      */
     public function handleWebhook(TapWebhookRequest $request)
     {
+        logger()->info('WebhookController | handleWebhook', request()->all());
+
         $method = 'handle' . Str::studly($request->input('object'));
 
         WebhookReceived::dispatch($request);

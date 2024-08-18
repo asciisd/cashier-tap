@@ -26,6 +26,8 @@ class TapWebhookRequest extends FormRequest
      */
     public function authorize()
     {
+        logger('TapWebhookRequest | authorize', request()->all());
+
         return true;
     }
 
@@ -36,6 +38,8 @@ class TapWebhookRequest extends FormRequest
      */
     public function rules()
     {
+        logger('TapWebhookRequest | rules', request()->all());
+
         return [
             'id' => 'required',
             'amount' => 'required',
