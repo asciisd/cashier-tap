@@ -15,7 +15,7 @@ trait ManagesPaymentMethods
      */
     public function hasPaymentMethod(): bool
     {
-        return (bool)$this->card_brand;
+        return (bool) $this->card_brand;
     }
 
     /**

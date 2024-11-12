@@ -14,6 +14,8 @@ class ChargesTest extends FeatureTestCase
 
         $token = $this->createToken();
 
+        $this->expectException(PaymentActionRequired::class);
+
         $response = $user->charge(100, $token->id);
 
         $this->assertInstanceOf(Payment::class, $response);

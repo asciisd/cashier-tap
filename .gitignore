@@ -6,3 +6,5 @@ phpunit.xml
 build
 coverage
 docs
+/vendor
+/phpunit.xml

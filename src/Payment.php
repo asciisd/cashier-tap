@@ -11,37 +11,23 @@ use Illuminate\Support\Str;
 use Tap\Charge;
 use Tap\TapObject;
 
-/**
- * Class Payment
- *
- * @property string id
- * @property string status
- * @property string currency
- *
- * @package Asciisd\Cashier
- */
 class Payment
 {
     use Downloadable;
 
-    const SUCCESS_RESPONSE = ['CAPTURED'];
-    const NEED_MORE_ACTION = ['INITIATED'];
-    const FAILED_RESPONSE = [
+    const array SUCCESS_RESPONSE = ['CAPTURED'];
+    const array NEED_MORE_ACTION = ['INITIATED'];
+    const array FAILED_RESPONSE = [
         'ABANDONED', 'CANCELLED', 'FAILED', 'DECLINED', 'RESTRICTED', 'VOID', 'TIMEDOUT', 'UNKNOWN', 'NOT CAPTURED'
     ];
 
     /**
      * The Tap Charge instance.
-     *
-     * @var Charge|TapObject
      */
     protected TapObject|Charge $charge;
 
     /**
      * Create a new Payment instance.
-     *
-     * @param  TapObject  $paymentIntent
-     * @return void
      */
     public function __construct(TapObject $paymentIntent)
     {
@@ -50,8 +36,6 @@ class Payment
 
     /**
      * Get the total amount that will be paid.
-     *
-     * @return string
      */
     public function amount(): string
     {
@@ -64,8 +48,6 @@ class Payment
 
     /**
      * Get the raw total amount that will be paid.
-     *
-     * @return int
      */
     public function rawAmount(): int
     {
@@ -74,8 +56,6 @@ class Payment
 
     /**
      * Determine if the payment needs an extra action like 3D Secure.
-     *
-     * @return bool
      */
     public function requiresAction(): bool
     {
@@ -84,8 +64,6 @@ class Payment
 
     /**
      * get url of charge action
-     *
-     * @return string
      */
     public function actionUrl(): string
     {
@@ -94,8 +72,6 @@ class Payment
 
     /**
      * Determine if the payment was cancelled.
-     *
-     * @return bool
      */
     public function isCancelled(): bool
     {
@@ -104,8 +80,6 @@ class Payment
 
     /**
      * Determine if the payment was successful.
-     *
-     * @return bool
      */
     public function isSucceeded(): bool
     {
@@ -114,8 +88,6 @@ class Payment
 
     /**
      * Determine if the payment is failed.
-     *
-     * @return bool
      */
     public function isFailure(): bool
     {

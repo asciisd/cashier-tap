@@ -6,23 +6,16 @@ trait ManagesAppDetails
 {
     /**
      * The application / product details.
-     *
-     * @var array
      */
     public static array $details = [];
 
     /**
      * The e-mail addresses of all the application's developers.
-     *
-     * @var array
      */
     public static array $developers = [];
 
     /**
      * Define the application information.
-     *
-     * @param  array  $details
-     * @return void
      */
     public static function details(array $details): void
     {
@@ -31,8 +24,6 @@ trait ManagesAppDetails
 
     /**
      * Get the product name from the application information.
-     *
-     * @return string
      */
     public static function product(): string
     {
@@ -41,8 +32,6 @@ trait ManagesAppDetails
 
     /**
      * Get the invoice meta information, such as product, etc.
-     *
-     * @return array
      */
     public static function generateInvoicesWith(): array
     {
@@ -57,9 +46,6 @@ trait ManagesAppDetails
 
     /**
      * Get the invoice data payload for the given billable entity.
-     *
-     * @param  mixed  $billable
-     * @return array
      */
     public static function invoiceDataFor(mixed $billable): array
     {
@@ -71,9 +57,6 @@ trait ManagesAppDetails
 
     /**
      * Determine if the given e-mail address belongs to a developer.
-     *
-     * @param  string  $email
-     * @return bool
      */
     public static function developer(string $email): bool
     {
@@ -92,9 +75,6 @@ trait ManagesAppDetails
 
     /**
      * Set the e-mail addresses that are registered to developers.
-     *
-     * @param  array  $developers
-     * @return void
      */
     public static function developers(array $developers): void
     {

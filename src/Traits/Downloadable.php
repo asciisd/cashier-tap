@@ -12,27 +12,21 @@ trait Downloadable
 {
     /**
      * Get the View instance for the invoice.
-     *
-     * @param array $data
-     * @return \Illuminate\Contracts\View\View
      */
-    public function view(array $data)
+    public function view(array $data): \Illuminate\Contracts\View\View
     {
         return View::make('cashier::pdf_receipt', array_merge($data, [
             'invoice' => $this,
-            'owner' => $this->owner()
+            'owner'   => $this->owner()
         ]));
     }
 
     /**
      * Capture the invoice as a PDF and return the raw bytes.
-     *
-     * @param  array  $data
-     * @return string
      */
-    public function pdf(array $data)
+    public function pdf(array $data): string
     {
-        if (! defined('DOMPDF_ENABLE_AUTOLOAD')) {
+        if (!defined('DOMPDF_ENABLE_AUTOLOAD')) {
             define('DOMPDF_ENABLE_AUTOLOAD', false);
         }
 
@@ -46,11 +40,8 @@ trait Downloadable
 
     /**
      * Create an invoice download response.
-     *
-     * @param  array  $data
-     * @return Response
      */
-    public function download(array $data)
+    public function download(array $data): Response
     {
         $filename = $data['product'].'_'.$this->date()->month.'_'.$this->date()->year;
 
@@ -59,19 +50,15 @@ trait Downloadable
 
     /**
      * Create an invoice download response with a specific filename.
-     *
-     * @param  string  $filename
-     * @param  array  $data
-     * @return Response
      */
-    public function downloadAs(string $filename, array $data)
+    public function downloadAs(string $filename, array $data): Response
     {
         return new Response($this->pdf($data), 200, [
-            'Content-Description' => 'File Transfer',
-            'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
+            'Content-Description'       => 'File Transfer',
+            'Content-Disposition'       => 'attachment; filename="'.$filename.'.pdf"',
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Type' => 'application/pdf',
-            'X-Vapor-Base64-Encode' => 'True',
+            'Content-Type'              => 'application/pdf',
+            'X-Vapor-Base64-Encode'     => 'True',
         ]);
     }
 }

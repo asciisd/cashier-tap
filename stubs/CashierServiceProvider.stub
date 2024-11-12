@@ -9,48 +9,37 @@ class CashierServiceProvider extends ServiceProvider
 {
     /**
      * Your application and company details.
-     *
-     * @var array
      */
-    protected $details = [
-        'vendor' => 'Your Company',
-        'product' => 'Your Product',
-        'street' => 'PO Box 111',
-        'location' => 'Your Town, NY 12345',
-        'phone' => '555-555-5555',
-        'email' => 'email@example.com',
-        'url' => 'https://asciisd.com',
+    protected array $details = [
+        'vendor'        => 'Your Company',
+        'product'       => 'Your Product',
+        'street'        => 'PO Box 111',
+        'location'      => 'Your Town, NY 12345',
+        'phone'         => '555-555-5555',
+        'email'         => 'email@example.com',
+        'url'           => 'https://asciisd.com',
         'primary_color' => '#F04D23'
     ];
 
     /**
      * The address where customer support e-mails should be sent.
-     *
-     * @var string
      */
-    protected $sendSupportEmailsTo = null;
+    protected ?string $sendSupportEmailsTo = null;
 
     /**
      * All the application developer e-mail addresses.
-     *
-     * @var array
      */
-    protected $developers = [
+    protected array $developers = [
         //
     ];
 
     /**
      * Indicates if the application will expose an API.
-     *
-     * @var bool
      */
     protected bool $usesApi = true;
 
     /**
      * Finish configuring Spark for the application.
-     *
-     * @param  Closure  $callback
-     * @return void
      */
     public function booted(Closure $callback)
     {
@@ -59,8 +48,6 @@ class CashierServiceProvider extends ServiceProvider
 
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {

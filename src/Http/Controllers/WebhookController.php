@@ -2,7 +2,6 @@
 
 namespace Asciisd\Cashier\Http\Controllers;
 
-use Asciisd\Cashier\Billable;
 use Asciisd\Cashier\Cashier;
 use Asciisd\Cashier\Events\TapChargeHandled;
 use Asciisd\Cashier\Events\WebhookHandled;
@@ -34,15 +33,12 @@ class WebhookController extends Controller
 
     /**
      * Handle a Tap webhook call.
-     *
-     * @param TapWebhookRequest $request
-     * @return Response
      */
     public function handleWebhook(TapWebhookRequest $request)
     {
         logger()->info('WebhookController | handleWebhook', request()->all());
 
-        $method = 'handle' . Str::studly($request->input('object'));
+        $method = 'handle'.Str::studly($request->input('object'));
 
         WebhookReceived::dispatch($request);
 
@@ -65,9 +61,6 @@ class WebhookController extends Controller
 
     /**
      * Handle payment action required for invoice.
-     *
-     * @param array $payload
-     * @return Response
      */
     protected function handleInvoicePaymentActionRequired(array $payload)
     {
@@ -90,9 +83,6 @@ class WebhookController extends Controller
 
     /**
      * Get the billable entity instance by Tap ID.
-     *
-     * @param string|null $tapId
-     * @return Billable|null
      */
     protected function getUserByTapId($tapId)
     {
@@ -101,9 +91,6 @@ class WebhookController extends Controller
 
     /**
      * Handle successful calls on the controller.
-     *
-     * @param array $parameters
-     * @return Response
      */
     protected function successMethod($parameters = [])
     {
@@ -112,9 +99,6 @@ class WebhookController extends Controller
 
     /**
      * Handle calls to missing methods on the controller.
-     *
-     * @param array $parameters
-     * @return Response
      */
     protected function missingMethod($parameters = [])
     {

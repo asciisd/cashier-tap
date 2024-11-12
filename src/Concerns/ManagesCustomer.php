@@ -47,7 +47,7 @@ trait ManagesCustomer
     /**
      * Create a Tap customer for the given model.
      *
-     * @param array $options
+     * @param  array  $options
      * @return TapCustomer
      * @throws InvalidCustomer
      */
@@ -76,7 +76,7 @@ trait ManagesCustomer
     /**
      * Update the underlying Tap customer information for the model.
      *
-     * @param array $options
+     * @param  array  $options
      * @return array|TapCustomer|TapObject
      */
     public function updateTapCustomer(array $options = []): TapObject|array|TapCustomer
@@ -89,7 +89,7 @@ trait ManagesCustomer
     /**
      * Get the Tap customer instance for the current user or create one.
      *
-     * @param array $options
+     * @param  array  $options
      * @return TapCustomer
      * @throws InvalidCustomer
      */
@@ -134,7 +134,7 @@ trait ManagesCustomer
     {
         return [
             'country_code' => $this->phone_code,
-            'number' => $this->phone
+            'number'       => $this->phone
         ];
     }
 
@@ -161,7 +161,7 @@ trait ManagesCustomer
     /**
      * Apply a coupon to the billable entity.
      *
-     * @param string $coupon
+     * @param  string  $coupon
      * @return void
      * @throws InvalidCustomer
      */
@@ -189,7 +189,7 @@ trait ManagesCustomer
     /**
      * Get the default Tap API options for the current Billable model.
      *
-     * @param array $options
+     * @param  array  $options
      * @return array
      */
     public function tapOptions(array $options = []): array
@@ -201,9 +201,9 @@ trait ManagesCustomer
     {
         return [
             'first_name' => $this->tapFirstName(),
-            'last_name' => $this->tapLastName(),
-            'email' => $this->tapEmail(),
-            'phone' => $this->tapPhone()
+            'last_name'  => $this->tapLastName(),
+            'email'      => $this->tapEmail(),
+            'phone'      => $this->tapPhone()
         ];
     }
 }

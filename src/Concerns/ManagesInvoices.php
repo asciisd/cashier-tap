@@ -30,8 +30,7 @@ trait ManagesInvoices
                     [
                         "amount"      => $amount,
                         "currency"    => $currency,
-                        "description" => "Deposit on account #"
-                                         . $trading_account,
+                        "description" => "Deposit on account #".$trading_account,
                         "name"        => "Deposit",
                         "quantity"    => 1,
                     ],

@@ -14,19 +14,12 @@ class ReceiptController
 {
     /**
      * Display receipt.
-     *
-     * @param ReceiptRequest $request
-     * @return View
      */
     public function show(ReceiptRequest $request)
     {
         $payment = new Payment(
             Charge::retrieve($request->tap_id, Cashier::tapOptions())
         );
-
-//        if ($request->user()->tap_id !== $payment->owner()->tap_id) {
-//            throw new UnauthorizedException('Sorry! But this invoice did\'t belongs to you.');
-//        }
 
         TapReceiptSeen::dispatch($payment);
 

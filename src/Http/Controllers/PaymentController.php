@@ -14,14 +14,11 @@ class PaymentController
 {
     /**
      * Display the form to gather additional payment verification for the given payment.
-     *
-     * @param Request $request
-     * @return View
      */
     public function show(Request $request)
     {
         return view('cashier::receipt', [
-            'payment' => new Payment(
+            'payment'  => new Payment(
                 Charge::retrieve($request->tap_id, Cashier::tapOptions())
             ),
             'redirect' => request('redirect'),

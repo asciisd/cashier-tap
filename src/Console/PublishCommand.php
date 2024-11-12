@@ -28,7 +28,7 @@ class PublishCommand extends Command
     public function handle()
     {
         $this->call('vendor:publish', [
-            '--tag' => 'cashier-assets',
+            '--tag'   => 'cashier-assets',
             '--force' => true,
         ]);
     }

@@ -5,7 +5,6 @@ namespace Asciisd\Cashier\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Tap\Exception\SignatureVerificationException;
 use Tap\WebhookSignature;
@@ -15,16 +14,12 @@ class VerifyWebhookSignature
     /**
      * Handle the incoming request.
      *
-     * @param Request $request
-     * @param Closure $next
-     * @return Response
-     *
      */
     public function handle(Request $request, Closure $next)
     {
         logger()->info('VerifyWebhookSignature@handle');
-        logger()->info('Request headers: ' . json_encode($request->header()));
-        logger()->info('Request: ' . json_encode($request->all()));
+        logger()->info('Request headers: '.json_encode($request->header()));
+        logger()->info('Request: '.json_encode($request->all()));
 
         try {
             WebhookSignature::verifyHeader(

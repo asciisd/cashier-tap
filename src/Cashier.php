@@ -18,17 +18,13 @@ class Cashier
 
     /**
      * The Cashier library version.
-     *
-     * @var string
      */
-    const VERSION = '2.1.1';
+    const string VERSION = '3.0.0';
 
     /**
      * The Tap API version.
-     *
-     * @var string
      */
-    const TAP_VERSION = 'v2';
+    const string TAP_VERSION = 'v2';
 
     /**
      * The custom currency formatter.
@@ -39,36 +35,33 @@ class Cashier
 
     /**
      * Indicates if Cashier migrations will be run.
-     *
-     * @var bool
      */
     public static bool $runsMigrations = true;
 
     /**
      * Indicates if Cashier routes will be registered.
-     *
-     * @var bool
      */
     public static bool $registersRoutes = true;
 
     /**
+     * The default customer model class name.
+     */
+    public static string $customerModel = 'App\\Models\\User';
+
+
+    /**
      * Get the default Tap API options.
-     *
-     * @param array $options
-     * @return array
      */
     public static function tapOptions(array $options = []): array
     {
         return array_merge([
-            'api_key' => config('cashier.secret'),
+            'api_key'     => config('cashier.secret'),
             'tap_version' => static::TAP_VERSION,
         ], $options);
     }
 
     /**
      * Configure Cashier to not register its migrations.
-     *
-     * @return static
      */
     public static function ignoreMigrations(): static
     {
@@ -79,8 +72,6 @@ class Cashier
 
     /**
      * Configure Cashier to not register its routes.
-     *
-     * @return static
      */
     public static function ignoreRoutes(): static
     {
@@ -90,12 +81,15 @@ class Cashier
     }
 
     /**
+     * Set the custom currency formatter.
+     */
+    public static function formatCurrencyUsing(callable $callback): void
+    {
+        static::$formatCurrencyUsing = $callback;
+    }
+
+    /**
      * Format the given amount into a displayable currency.
-     *
-     * @param int $amount
-     * @param  string|null  $currency
-     * @param  int  $multiply_by
-     * @return string
      */
     public static function formatAmount(int $amount, string $currency = null, int $multiply_by = 100): string
     {
@@ -113,20 +107,14 @@ class Cashier
 
     /**
      * generate receipt link to show the charge receipt on web
-     *
-     * @param $receipt_id
-     * @return string
      */
     public static function receipt($receipt_id): string
     {
-        return config('cashier.redirect_url') . '?tap_id=' . $receipt_id;
+        return config('cashier.redirect_url').'?tap_id='.$receipt_id;
     }
 
     /**
      * Get the billable entity instance by Stripe ID.
-     *
-     * @param string $tapId
-     * @return ?Billable
      */
     public static function findBillable(string $tapId): ?Billable
     {
@@ -134,8 +122,16 @@ class Cashier
             return null;
         }
 
-        $model = config('cashier.model');
+        $model = static::$customerModel;
 
         return (new $model)->where('tap_id', $tapId)->first();
+    }
+
+    /**
+     * Set the customer model class name.
+     */
+    public static function useCustomerModel(string $customerModel): void
+    {
+        static::$customerModel = $customerModel;
     }
 }

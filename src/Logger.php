@@ -9,16 +9,11 @@ class Logger implements TapLogger
 {
     /**
      * The Logger instance.
-     *
-     * @var LoggerInterface
      */
     protected LoggerInterface $logger;
 
     /**
      * Create a new Logger instance.
-     *
-     * @param LoggerInterface $logger
-     * @return void
      */
     public function __construct(LoggerInterface $logger)
     {

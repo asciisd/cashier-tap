@@ -60,8 +60,8 @@ trait PerformsCharges
     /**
      * Refund a customer for a charge.
      *
-     * @param string $charge
-     * @param array $options
+     * @param  string  $charge
+     * @param  array  $options
      * @return array|Customer|Refund|TapObject
      */
     public function refund(string $charge, array $options = []): TapObject|array|Customer|Refund

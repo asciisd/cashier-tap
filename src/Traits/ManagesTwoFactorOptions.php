@@ -8,27 +8,21 @@ trait ManagesTwoFactorOptions
 {
     /**
      * Indicates if two-factor authentication is being offered.
-     *
-     * @var bool
      */
-    public static $usesTwoFactorAuth = false;
+    public static bool $usesTwoFactorAuth = false;
 
     /**
      * Determines if two-factor authentication is being offered.
-     *
-     * @return bool
      */
-    public static function usesTwoFactorAuth()
+    public static function usesTwoFactorAuth(): bool
     {
         return static::$usesTwoFactorAuth;
     }
 
     /**
      * Specifies that two-factor authentication should be offered.
-     *
-     * @return void
      */
-    public static function useTwoFactorAuth()
+    public static function useTwoFactorAuth(): void
     {
         static::$usesTwoFactorAuth = true;
     }

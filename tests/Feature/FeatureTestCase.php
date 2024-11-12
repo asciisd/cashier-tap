@@ -4,8 +4,8 @@ namespace Asciisd\Cashier\Tests\Feature;
 
 use Asciisd\Cashier\Tests\Fixtures\User;
 use Asciisd\Cashier\Tests\TestCase;
-use Illuminate\Database\Eloquent\Model as Eloquent;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Concerns\WithLaravelMigrations;
 use Tap\ApiResource;
 use Tap\Card;
 use Tap\Exception\InvalidRequestException;
@@ -15,49 +15,48 @@ use Tap\Token;
 
 abstract class FeatureTestCase extends TestCase
 {
+    use RefreshDatabase, WithLaravelMigrations;
+
     /**
      * @var string
      */
     protected static string $tapPrefix = 'cashier-test-';
 
     protected static array $test_card = [
-            'card' => [
-                'number' => '5111111111111118',
-                'exp_month' => '05',
-                'exp_year' => '21',
-                'cvc' => '100',
-                'name' => 'Amr Ahmed Asciisd',
-                'address' => [
-                    'country' => 'Kuwait',
-                    'line1' => 'Salmiya, 21',
-                    'city' => 'Kuwait city',
-                    'street' => 'Salim',
-                    'avenue' => 'Gulf',
-                ],
+        'card'      => [
+            'number'    => '5111111111111118',
+            'exp_month' => '01',
+            'exp_year'  => '39',
+            'cvc'       => '100',
+            'name'      => 'Amr Ahmed Asciisd',
+            'address'   => [
+                'country' => 'Kuwait',
+                'line1'   => 'Salmiya, 21',
+                'city'    => 'Kuwait city',
+                'street'  => 'Salim',
+                'avenue'  => 'Gulf',
             ],
-            'client_ip' => '192.168.1.20'
-        ];
+        ],
+        'client_ip' => '192.168.1.20'
+    ];
+
+    protected function setUp(): void
+    {
+        if (!getenv('TAP_API_KEY')) {
+            $this->markTestSkipped('Tap API key not set.');
+        }
+
+        parent::setUp();
+
+        // Delay consecutive tests to prevent Tap rate limiting issues.
+        sleep(2);
+    }
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         Tap::setApiKey(getenv('TAP_API_KEY'));
-    }
-
-    protected function setUp(): void
-    {
-        // Delay consecutive tests to prevent Tap rate limiting issues.
-        sleep(2);
-
-        parent::setUp();
-
-        Eloquent::unguard();
-
-        $this->loadLaravelMigrations();
-
-        $this->artisan('migrate')->run();
-
     }
 
     protected static function deleteTapResource(ApiResource $resource)
@@ -69,20 +68,21 @@ abstract class FeatureTestCase extends TestCase
         }
     }
 
-    protected function createCustomer($description = 'aemad'): User
+    protected function createCustomer($description = 'amr', array $options = []): User
     {
-        return User::create([
-            'email' => "{$description}@cashier-test.com",
+        return User::create(array_merge([
+            'email'      => "{$description}@cashier-test.com",
             'first_name' => 'Amr',
-            'last_name' => 'Ahmed',
-            'name' => 'Amr Ahmed',
-            'phone' => '010123456789',
+            'last_name'  => 'Ahmed',
+            'name'       => 'Amr Ahmed',
+            'phone'      => '010123456789',
             'phone_code' => '002',
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
-        ]);
+            'password'   => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+        ], $options));
     }
 
-    protected function createCard($customer_id): TapObject {
+    protected function createCard($customer_id): TapObject
+    {
         $token = $this->createToken();
 
         dump("token created : $token->id");

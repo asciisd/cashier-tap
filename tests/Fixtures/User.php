@@ -9,4 +9,6 @@ use Asciisd\Cashier\Billable;
 class User extends Authenticatable implements \Asciisd\Cashier\Contracts\Billable
 {
     use Billable, Notifiable;
+
+    protected $guarded = [];
 }
