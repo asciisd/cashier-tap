@@ -20,7 +20,7 @@ class WebhookReceived
     /**
      * Create a new event instance.
      *
-     * @param  TapWebhookRequest  $payload
+     * @param TapWebhookRequest $payload
      * @return void
      */
     public function __construct(TapWebhookRequest $payload)

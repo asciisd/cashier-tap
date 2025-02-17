@@ -16,7 +16,7 @@ trait ManagesSupportOptions
      */
     public static function hasSupportAddress(): bool
     {
-        return !is_null(static::$sendsSupportEmailsTo);
+        return ! is_null(static::$sendsSupportEmailsTo);
     }
 
     /**

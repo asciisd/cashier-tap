@@ -18,26 +18,26 @@ trait ManagesInvoices
     public function createTapInvoice($amount, $trading_account, $currency = 'KWD', $options = [])
     {
         return Invoice::create(array_merge([
-            "due"      => now()->getPreciseTimestamp(3),
-            "expiry"   => now()->addDays(10)->getPreciseTimestamp(3),
+            "due" => now()->getPreciseTimestamp(3),
+            "expiry" => now()->addDays(10)->getPreciseTimestamp(3),
             "customer" => [
                 "id" => $this->tap_id,
             ],
-            "order"    => [
-                "amount"   => $amount,
+            "order" => [
+                "amount" => $amount,
                 "currency" => $currency,
-                "items"    => [
+                "items" => [
                     [
-                        "amount"      => $amount,
-                        "currency"    => $currency,
+                        "amount" => $amount,
+                        "currency" => $currency,
                         "description" => "Deposit on account #".$trading_account,
-                        "name"        => "Deposit",
-                        "quantity"    => 1,
+                        "name" => "Deposit",
+                        "quantity" => 1,
                     ],
                 ],
             ],
-            "post"     => ['url' => url('/tap/webhook')],
-            "redirect" => ['url' => url(config('cashier.redirect_url'))],
+            "post" => ['url' => url('/tap/webhook', secure: true)],
+            "redirect" => ['url' => url(config('cashier.redirect_url'), secure: true)],
 
         ], $options), Cashier::tapOptions());
     }

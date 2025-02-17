@@ -5,7 +5,6 @@ namespace Asciisd\Cashier\Events;
 use Asciisd\Cashier\Payment;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Tap\Charge;
 
 class TapReceiptSeen
 {
@@ -19,7 +18,7 @@ class TapReceiptSeen
     /**
      * Create a new event instance.
      *
-     * @param  Payment  $payment
+     * @param Payment $payment
      * @return void
      */
     public function __construct(Payment $payment)

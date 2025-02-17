@@ -6,8 +6,6 @@ use Asciisd\Cashier\Cashier;
 use Asciisd\Cashier\Events\TapReceiptSeen;
 use Asciisd\Cashier\Http\Requests\ReceiptRequest;
 use Asciisd\Cashier\Payment;
-use Illuminate\Validation\UnauthorizedException;
-use Illuminate\View\View;
 use Tap\Charge;
 
 class ReceiptController

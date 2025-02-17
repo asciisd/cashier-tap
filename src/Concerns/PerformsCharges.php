@@ -18,9 +18,9 @@ trait PerformsCharges
      *
      * allowed payment methods is ['src_kw.knet', 'src_all', 'src_card']
      *
-     * @param  int  $amount
-     * @param  string  $paymentMethod
-     * @param  array  $options
+     * @param int $amount
+     * @param string $paymentMethod
+     * @param array $options
      * @return Payment
      *
      * @throws PaymentActionRequired
@@ -36,16 +36,16 @@ trait PerformsCharges
         $options['amount'] = $amount;
         $options['source'] = ['id' => $paymentMethod];
 
-        if (!$this->hasTapId()) {
+        if (! $this->hasTapId()) {
             $this->createAsTapCustomer();
         }
 
         $options['reference'] = ['transaction' => rand()];
         $options['customer'] = ['id' => $this->tap_id];
-        $options['redirect'] = ['url' => url(config('cashier.redirect_url'))];
+        $options['redirect'] = ['url' => url(config('cashier.redirect_url'), secure: true)];
 
         if (config('cashier.webhook.secret')) {
-            $options['post'] = ['url' => url('/tap/webhook', secure: false)];
+            $options['post'] = ['url' => url('/tap/webhook', secure: true)];
         }
 
         $payment = new Payment(
@@ -60,8 +60,8 @@ trait PerformsCharges
     /**
      * Refund a customer for a charge.
      *
-     * @param  string  $charge
-     * @param  array  $options
+     * @param string $charge
+     * @param array $options
      * @return array|Customer|Refund|TapObject
      */
     public function refund(string $charge, array $options = []): TapObject|array|Customer|Refund

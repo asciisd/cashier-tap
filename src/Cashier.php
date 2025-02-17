@@ -2,6 +2,7 @@
 
 namespace Asciisd\Cashier;
 
+use Asciisd\Cashier\Contracts\Billable;
 use Asciisd\Cashier\Traits\ManagesAppDetails;
 use Asciisd\Cashier\Traits\ManagesSupportOptions;
 use Money\Currencies\ISOCurrencies;
@@ -9,7 +10,6 @@ use Money\Currency;
 use Money\Formatter\IntlMoneyFormatter;
 use Money\Money;
 use NumberFormatter;
-use Asciisd\Cashier\Contracts\Billable;
 
 class Cashier
 {
@@ -55,7 +55,7 @@ class Cashier
     public static function tapOptions(array $options = []): array
     {
         return array_merge([
-            'api_key'     => config('cashier.secret'),
+            'api_key' => config('cashier.secret'),
             'tap_version' => static::TAP_VERSION,
         ], $options);
     }

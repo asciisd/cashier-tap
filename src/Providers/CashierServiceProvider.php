@@ -34,43 +34,6 @@ class CashierServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
-     */
-    public function register(): void
-    {
-        $this->configure();
-        $this->bindLogger();
-        $this->registerServices();
-        $this->registerCommands();
-
-        if (!class_exists('Cashier')) {
-            class_alias('Asciisd\Cashier\Cashier', 'Cashier');
-        }
-    }
-
-    /**
-     * Set up the configuration for Cashier.
-     */
-    protected function configure(): void
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/cashier.php', 'cashier'
-        );
-    }
-
-    /**
-     * Bind the Stripe logger interface to the Cashier logger.
-     */
-    protected function bindLogger(): void
-    {
-        $this->app->bind(LoggerInterface::class, function ($app) {
-            return new Logger(
-                $app->make('log')->channel(config('cashier.logger'))
-            );
-        });
-    }
-
-    /**
      * Register the Tap logger.
      * @throws BindingResolutionException
      */
@@ -88,9 +51,9 @@ class CashierServiceProvider extends ServiceProvider
     {
         if (Cashier::$registersRoutes) {
             Route::group([
-                'prefix'    => config('cashier.path'),
+                'prefix' => config('cashier.path'),
                 'namespace' => 'Asciisd\Cashier\Http\Controllers',
-                'as'        => 'cashier.',
+                'as' => 'cashier.',
             ], function () {
                 $this->loadRoutesFrom(__DIR__.'/../../routes/web.php');
             });
@@ -145,6 +108,48 @@ class CashierServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register the application services.
+     */
+    public function register(): void
+    {
+        $this->configure();
+        $this->bindLogger();
+        $this->registerServices();
+        $this->registerCommands();
+
+        if (! class_exists('Cashier')) {
+            class_alias('Asciisd\Cashier\Cashier', 'Cashier');
+        }
+    }
+
+    /**
+     * Set up the configuration for Cashier.
+     */
+    protected function configure(): void
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/cashier.php', 'cashier'
+        );
+    }
+
+    /**
+     * Bind the Stripe logger interface to the Cashier logger.
+     */
+    protected function bindLogger(): void
+    {
+        $this->app->bind(LoggerInterface::class, function ($app) {
+            return new Logger(
+                $app->make('log')->channel(config('cashier.logger'))
+            );
+        });
+    }
+
+    public function registerServices()
+    {
+        //
+    }
+
+    /**
      * Register the Horizon Artisan commands.
      */
     protected function registerCommands(): void
@@ -155,10 +160,5 @@ class CashierServiceProvider extends ServiceProvider
                 PublishCommand::class
             ]);
         }
-    }
-
-    public function registerServices()
-    {
-        //
     }
 }

@@ -37,12 +37,12 @@ class TapWebhookRequest extends FormRequest
         logger('TapWebhookRequest | rules', request()->all());
 
         return [
-            'id'                  => 'required',
-            'amount'              => 'required',
-            'currency'            => 'required',
-            'reference.gateway'   => 'required',
-            'reference.payment'   => 'required',
-            'status'              => 'required',
+            'id' => 'required',
+            'amount' => 'required',
+            'currency' => 'required',
+            'reference.gateway' => 'required',
+            'reference.payment' => 'required',
+            'status' => 'required',
             'transaction.created' => 'required',
         ];
     }

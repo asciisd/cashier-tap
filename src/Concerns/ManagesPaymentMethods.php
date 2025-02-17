@@ -15,7 +15,7 @@ trait ManagesPaymentMethods
      */
     public function hasPaymentMethod(): bool
     {
-        return (bool) $this->card_brand;
+        return (bool)$this->card_brand;
     }
 
     /**
@@ -23,7 +23,7 @@ trait ManagesPaymentMethods
      */
     public function defaultPaymentMethod(): ?string
     {
-        if (!$this->hasTapId()) {
+        if (! $this->hasTapId()) {
             return null;
         }
 

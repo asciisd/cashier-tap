@@ -10,7 +10,7 @@ class CustomerAlreadyCreated extends Exception
     /**
      * Create a new CustomerAlreadyCreated instance.
      *
-     * @param  Model  $owner
+     * @param Model $owner
      * @return static
      */
     public static function exists($owner)

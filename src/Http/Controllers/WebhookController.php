@@ -53,10 +53,27 @@ class WebhookController extends Controller
         return $this->missingMethod();
     }
 
+    /**
+     * Handle calls to missing methods on the controller.
+     */
+    protected function missingMethod($parameters = [])
+    {
+        logger('Missing Method', $parameters);
+        return new Response;
+    }
+
     protected function handleCharge(TapWebhookRequest $request)
     {
         TapChargeHandled::dispatch($request);
         return $this->successMethod();
+    }
+
+    /**
+     * Handle successful calls on the controller.
+     */
+    protected function successMethod($parameters = [])
+    {
+        return new Response('Webhook Handled', 200);
     }
 
     /**
@@ -87,22 +104,5 @@ class WebhookController extends Controller
     protected function getUserByTapId($tapId)
     {
         return Cashier::findBillable($tapId);
-    }
-
-    /**
-     * Handle successful calls on the controller.
-     */
-    protected function successMethod($parameters = [])
-    {
-        return new Response('Webhook Handled', 200);
-    }
-
-    /**
-     * Handle calls to missing methods on the controller.
-     */
-    protected function missingMethod($parameters = [])
-    {
-        logger('Missing Method', $parameters);
-        return new Response;
     }
 }

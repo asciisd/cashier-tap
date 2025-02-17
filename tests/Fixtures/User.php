@@ -2,9 +2,9 @@
 
 namespace Asciisd\Cashier\Tests\Fixtures;
 
+use Asciisd\Cashier\Billable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Asciisd\Cashier\Billable;
 
 class User extends Authenticatable implements \Asciisd\Cashier\Contracts\Billable
 {

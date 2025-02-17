@@ -2,7 +2,6 @@
 
 namespace Asciisd\Cashier\Tests\Unit;
 
-use Carbon\Carbon;
 use Asciisd\Cashier\Exceptions\InvalidCustomer;
 use Asciisd\Cashier\Tests\Fixtures\User;
 use PHPUnit\Framework\TestCase;

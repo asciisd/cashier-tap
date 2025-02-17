@@ -30,7 +30,7 @@ class ChargesTest extends FeatureTestCase
         try {
             $user->charge(100, 'src_card');
 
-            $this->fail('Expected exception ' . PaymentActionRequired::class . ' was not thrown.');
+            $this->fail('Expected exception '.PaymentActionRequired::class.' was not thrown.');
         } catch (PaymentActionRequired $e) {
             // Assert that the payment needs an extra action.
             $this->assertTrue($e->payment->requiresAction());

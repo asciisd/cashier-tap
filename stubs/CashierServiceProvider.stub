@@ -11,13 +11,13 @@ class CashierServiceProvider extends ServiceProvider
      * Your application and company details.
      */
     protected array $details = [
-        'vendor'        => 'Your Company',
-        'product'       => 'Your Product',
-        'street'        => 'PO Box 111',
-        'location'      => 'Your Town, NY 12345',
-        'phone'         => '555-555-5555',
-        'email'         => 'email@example.com',
-        'url'           => 'https://asciisd.com',
+        'vendor' => 'Your Company',
+        'product' => 'Your Product',
+        'street' => 'PO Box 111',
+        'location' => 'Your Town, NY 12345',
+        'phone' => '555-555-5555',
+        'email' => 'email@example.com',
+        'url' => 'https://asciisd.com',
         'primary_color' => '#F04D23'
     ];
 

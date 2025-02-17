@@ -31,28 +31,28 @@ trait ManagesAppDetails
     }
 
     /**
-     * Get the invoice meta information, such as product, etc.
-     */
-    public static function generateInvoicesWith(): array
-    {
-        return array_merge([
-            'vendor'   => '',
-            'product'  => '',
-            'street'   => '',
-            'location' => '',
-            'phone'    => '',
-        ], static::$details);
-    }
-
-    /**
      * Get the invoice data payload for the given billable entity.
      */
     public static function invoiceDataFor(mixed $billable): array
     {
         return array_merge([
-            'vendor'  => 'Vendor',
+            'vendor' => 'Vendor',
             'product' => 'Product'
         ], static::generateInvoicesWith());
+    }
+
+    /**
+     * Get the invoice meta information, such as product, etc.
+     */
+    public static function generateInvoicesWith(): array
+    {
+        return array_merge([
+            'vendor' => '',
+            'product' => '',
+            'street' => '',
+            'location' => '',
+            'phone' => '',
+        ], static::$details);
     }
 
     /**

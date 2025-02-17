@@ -28,55 +28,13 @@ trait ManagesCustomer
      */
     public function hasTapId(): bool
     {
-        return !is_null($this->tap_id);
-    }
-
-    /**
-     * Determine if the entity has a Tap customer ID and throw an exception if not.
-     *
-     * @return void
-     * @throws InvalidCustomer
-     */
-    protected function assertCustomerExists(): void
-    {
-        if (!$this->tap_id) {
-            throw InvalidCustomer::nonCustomer($this);
-        }
-    }
-
-    /**
-     * Create a Tap customer for the given model.
-     *
-     * @param  array  $options
-     * @return TapCustomer
-     * @throws InvalidCustomer
-     */
-    public function createAsTapCustomer(array $options = []): TapCustomer
-    {
-        if ($this->tap_id) {
-            throw InvalidCustomer::exists($this);
-        }
-
-        $options = array_merge($this->tapCustomerFields(), $options);
-
-        // Here we will create the customer instance on Tap and store the ID of the
-        // user from Tap. This ID will correspond with the Tap user instances
-        // and allow us to retrieve users from Tap later when we need to work.
-        $customer = TapCustomer::create(
-            $options, $this->tapOptions()
-        );
-
-        $this->tap_id = $customer->id;
-
-        $this->save();
-
-        return $customer;
+        return ! is_null($this->tap_id);
     }
 
     /**
      * Update the underlying Tap customer information for the model.
      *
-     * @param  array  $options
+     * @param array $options
      * @return array|TapCustomer|TapObject
      */
     public function updateTapCustomer(array $options = []): TapObject|array|TapCustomer
@@ -87,9 +45,20 @@ trait ManagesCustomer
     }
 
     /**
+     * Get the default Tap API options for the current Billable model.
+     *
+     * @param array $options
+     * @return array
+     */
+    public function tapOptions(array $options = []): array
+    {
+        return Cashier::tapOptions($options);
+    }
+
+    /**
      * Get the Tap customer instance for the current user or create one.
      *
-     * @param  array  $options
+     * @param array $options
      * @return TapCustomer
      * @throws InvalidCustomer
      */
@@ -116,25 +85,54 @@ trait ManagesCustomer
     }
 
     /**
-     * Get the email address used to create the customer in Tap.
+     * Determine if the entity has a Tap customer ID and throw an exception if not.
      *
-     * @return string
+     * @return void
+     * @throws InvalidCustomer
      */
-    public function tapEmail(): string
+    protected function assertCustomerExists(): void
     {
-        return $this->email;
+        if (! $this->tap_id) {
+            throw InvalidCustomer::nonCustomer($this);
+        }
     }
 
     /**
-     * Get the phone used to create the customer in Tap.
+     * Create a Tap customer for the given model.
      *
-     * @return array ['country_code' => string, 'number' => string]
+     * @param array $options
+     * @return TapCustomer
+     * @throws InvalidCustomer
      */
-    public function tapPhone(): array
+    public function createAsTapCustomer(array $options = []): TapCustomer
+    {
+        if ($this->tap_id) {
+            throw InvalidCustomer::exists($this);
+        }
+
+        $options = array_merge($this->tapCustomerFields(), $options);
+
+        // Here we will create the customer instance on Tap and store the ID of the
+        // user from Tap. This ID will correspond with the Tap user instances
+        // and allow us to retrieve users from Tap later when we need to work.
+        $customer = TapCustomer::create(
+            $options, $this->tapOptions()
+        );
+
+        $this->tap_id = $customer->id;
+
+        $this->save();
+
+        return $customer;
+    }
+
+    public function tapCustomerFields(): array
     {
         return [
-            'country_code' => $this->phone_code,
-            'number'       => $this->phone
+            'first_name' => $this->tapFirstName(),
+            'last_name' => $this->tapLastName(),
+            'email' => $this->tapEmail(),
+            'phone' => $this->tapPhone()
         ];
     }
 
@@ -159,9 +157,32 @@ trait ManagesCustomer
     }
 
     /**
+     * Get the email address used to create the customer in Tap.
+     *
+     * @return string
+     */
+    public function tapEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get the phone used to create the customer in Tap.
+     *
+     * @return array ['country_code' => string, 'number' => string]
+     */
+    public function tapPhone(): array
+    {
+        return [
+            'country_code' => $this->phone_code,
+            'number' => $this->phone
+        ];
+    }
+
+    /**
      * Apply a coupon to the billable entity.
      *
-     * @param  string  $coupon
+     * @param string $coupon
      * @return void
      * @throws InvalidCustomer
      */
@@ -184,26 +205,5 @@ trait ManagesCustomer
     public function preferredCurrency(): string
     {
         return config('cashier.currency');
-    }
-
-    /**
-     * Get the default Tap API options for the current Billable model.
-     *
-     * @param  array  $options
-     * @return array
-     */
-    public function tapOptions(array $options = []): array
-    {
-        return Cashier::tapOptions($options);
-    }
-
-    public function tapCustomerFields(): array
-    {
-        return [
-            'first_name' => $this->tapFirstName(),
-            'last_name'  => $this->tapLastName(),
-            'email'      => $this->tapEmail(),
-            'phone'      => $this->tapPhone()
-        ];
     }
 }

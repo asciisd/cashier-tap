@@ -67,7 +67,7 @@ class Payment
      */
     public function actionUrl(): string
     {
-        return $this->charge->transaction->url ?? url('/');
+        return $this->charge->transaction->url ?? url('/', secure: true);
     }
 
     /**
@@ -154,7 +154,7 @@ class Payment
     /**
      * Get a Carbon date for the invoice.
      *
-     * @param  null  $timezone
+     * @param null $timezone
      * @return Carbon
      */
     public function date($timezone = null): Carbon
@@ -187,7 +187,7 @@ class Payment
     /**
      * Dynamically get values from the Tap Charge.
      *
-     * @param  string  $key
+     * @param string $key
      * @return mixed
      */
     public function __get(string $key)

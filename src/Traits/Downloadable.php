@@ -11,34 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 trait Downloadable
 {
     /**
-     * Get the View instance for the invoice.
-     */
-    public function view(array $data): \Illuminate\Contracts\View\View
-    {
-        return View::make('cashier::pdf_receipt', array_merge($data, [
-            'invoice' => $this,
-            'owner'   => $this->owner()
-        ]));
-    }
-
-    /**
-     * Capture the invoice as a PDF and return the raw bytes.
-     */
-    public function pdf(array $data): string
-    {
-        if (!defined('DOMPDF_ENABLE_AUTOLOAD')) {
-            define('DOMPDF_ENABLE_AUTOLOAD', false);
-        }
-
-        $dompdf = new Dompdf;
-        $dompdf->setPaper(config('cashier.paper', 'letter'));
-        $dompdf->loadHtml($this->view($data)->render());
-        $dompdf->render();
-
-        return $dompdf->output();
-    }
-
-    /**
      * Create an invoice download response.
      */
     public function download(array $data): Response
@@ -54,11 +26,39 @@ trait Downloadable
     public function downloadAs(string $filename, array $data): Response
     {
         return new Response($this->pdf($data), 200, [
-            'Content-Description'       => 'File Transfer',
-            'Content-Disposition'       => 'attachment; filename="'.$filename.'.pdf"',
+            'Content-Description' => 'File Transfer',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'.pdf"',
             'Content-Transfer-Encoding' => 'binary',
-            'Content-Type'              => 'application/pdf',
-            'X-Vapor-Base64-Encode'     => 'True',
+            'Content-Type' => 'application/pdf',
+            'X-Vapor-Base64-Encode' => 'True',
         ]);
+    }
+
+    /**
+     * Capture the invoice as a PDF and return the raw bytes.
+     */
+    public function pdf(array $data): string
+    {
+        if (! defined('DOMPDF_ENABLE_AUTOLOAD')) {
+            define('DOMPDF_ENABLE_AUTOLOAD', false);
+        }
+
+        $dompdf = new Dompdf;
+        $dompdf->setPaper(config('cashier.paper', 'letter'));
+        $dompdf->loadHtml($this->view($data)->render());
+        $dompdf->render();
+
+        return $dompdf->output();
+    }
+
+    /**
+     * Get the View instance for the invoice.
+     */
+    public function view(array $data): \Illuminate\Contracts\View\View
+    {
+        return View::make('cashier::pdf_receipt', array_merge($data, [
+            'invoice' => $this,
+            'owner' => $this->owner()
+        ]));
     }
 }
