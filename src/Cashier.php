@@ -19,7 +19,7 @@ class Cashier
     /**
      * The Cashier library version.
      */
-    const string VERSION = '3.0.0';
+    const string VERSION = '3.0.1';
 
     /**
      * The Tap API version.

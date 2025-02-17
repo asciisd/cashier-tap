@@ -45,7 +45,7 @@ trait PerformsCharges
         $options['redirect'] = ['url' => url(config('cashier.redirect_url'))];
 
         if (config('cashier.webhook.secret')) {
-            $options['post'] = ['url' => url('/tap/webhook')];
+            $options['post'] = ['url' => url('/tap/webhook', secure: false)];
         }
 
         $payment = new Payment(
